@@ -6,7 +6,8 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.Room;
 
-@Database(entities = {Word.class}, version = 1)
+@Database(entities = {Word.class, GameState.class, Level.class}, version = 4)
+
 public abstract class AppDatabase extends RoomDatabase {
     public AppDatabase() {
 
@@ -14,6 +15,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract WordDao wordDao();
 
+    public abstract GameStateDao gameStateDao();
+
+    public abstract LevelDao levelDao();
     private static AppDatabase INSTANCE = null;
 
     public static synchronized AppDatabase getInstance(Context context) {

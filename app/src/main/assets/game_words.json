@@ -1,0 +1,1501 @@
+[
+  {
+    "level" : 1,
+    "word" : "book",
+    "hint" : "I hold worlds, but I have no voice until you open me.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "car",
+    "hint" : "I have four feet, drink petrol, and never sleep.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "sun",
+    "hint" : "You never see me at night, yet I light your way.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "chair",
+    "hint" : "I have legs but never walk. You depend on me to rest.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "ball",
+    "hint" : "Kick me or throw me — I always come back round.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "milk",
+    "hint" : "I’m white, cold, and live in the fridge.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "shoe",
+    "hint" : "I walk with you, but I’m not alive.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "tree",
+    "hint" : "I stand still and tall, but I change clothes every fall.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "apple",
+    "hint" : "I'm a red or green fruit that keeps doctors away.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "clock",
+    "hint" : "I have hands but no arms, I run but never walk.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "pencil",
+    "hint" : "I leave a mark wherever I go, but I’m not a criminal.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "cloud",
+    "hint" : "I float high and sometimes cry.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "mirror",
+    "hint" : "I show you who you are but cannot speak a word.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "egg",
+    "hint" : "I crack easily and bring life or breakfast.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "ice",
+    "hint" : "I’m solid water, but I melt under pressure.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "key",
+    "hint" : "I can open you up without touching your heart.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "hat",
+    "hint" : "I sit on your head but never complain.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "bed",
+    "hint" : "You visit me when you're tired but leave me when you're strong.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "bag",
+    "hint" : "I carry your things but never move on my own.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "spoon",
+    "hint" : "I hold food without hands.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "rain",
+    "hint" : "I fall but never get hurt.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "phone",
+    "hint" : "I let you talk without seeing the person.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "lamp",
+    "hint" : "I brighten your room but don’t shine on my own.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "soap",
+    "hint" : "I clean you up but end up down the drain.",
+    "language" : "en"
+  },
+  {
+    "level" : 1,
+    "word" : "shadow",
+    "hint" : "I follow you everywhere, but vanish in the dark.",
+    "language" : "en"
+  },
+  {
+    "level" : 2,
+    "word" : "mystery",
+    "hint" : "I am something that hides in shadows, waiting for the curious to unravel me.",
+    "language" : "en"
+  },
+  {
+    "level" : 2,
+    "word" : "voyage",
+    "hint" : "I take you far, across unknown lands, where the journey is the real treasure.",
+    "language" : "en"
+  },
+  {
+    "level" : 2,
+    "word" : "ocean",
+    "hint" : "I stretch beyond sight, full of secrets and waves that never tire.",
+    "language" : "en"
+  },
+  {
+    "level" : 2,
+    "word" : "legacy",
+    "hint" : "I am what you leave behind, a mark that lingers even when you're gone.",
+    "language" : "en"
+  },
+  {
+    "level" : 2,
+    "word" : "fascinate",
+    "hint" : "I draw you in with wonder, a magnet for your attention.",
+    "language" : "en"
+  },
+  {
+    "level" : 2,
+    "word" : "adventure",
+    "hint" : "I am the call to the unknown, where every step leads to a new story.",
+    "language" : "en"
+  },
+  {
+    "level" : 2,
+    "word" : "whisper",
+    "hint" : "I am the softest sound, carrying secrets only the attentive can hear.",
+    "language" : "en"
+  },
+  {
+    "level" : 2,
+    "word" : "echo",
+    "hint" : "I repeat your voice, yet I’m not really me, just a reflection of your words.",
+    "language" : "en"
+  },
+  {
+    "level" : 2,
+    "word" : "serenity",
+    "hint" : "I am the calm within chaos, where the mind rests and time slows.",
+    "language" : "en"
+  },
+  {"level": 2, "word": "breeze", "hint": "I am a gentle wind that whispers through the trees.", "language": "en"},
+  {"level": 2, "word": "feather", "hint": "I am light and soft, found on birds or in pillows.", "language": "en"},
+  {
+    "level": 2,
+    "word": "harmony",
+    "hint": "I am the balance of sounds, where every note and pause fit perfectly together.",
+    "language": "en"
+  },
+
+  {
+    "level": 2,
+    "word": "lucid",
+    "hint": "I am clear and easily understood, like a clear sky.",
+    "language": "en"
+  },
+
+  {
+    "level": 2,
+    "word": "solitude",
+    "hint": "I am the quiet companion, where you find peace in your own company.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "glimmer",
+    "hint": "I’m a fleeting spark of light, just enough to make you wonder where I came from.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "crystal",
+    "hint": "I am clear and sharp, reflecting light in ways that reveal hidden beauty.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "drift",
+    "hint": "I move slowly without effort, carried by the winds of change, always flowing.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "sparkle",
+    "hint": "I am the glimmer in the dark, tiny lights that dance when you least expect.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "hike",
+    "hint": "I take you on an upward journey, where each step brings you closer to the sky.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "horizon",
+    "hint": "I’m where the earth meets the sky, always just out of reach, inviting you forward.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "starlight",
+    "hint": "I’m the light from distant stars, a soft glow that travels across time and space.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "mosaic",
+    "hint": "I’m a picture made of many tiny pieces, each unique, yet together I form something whole.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "illusion",
+    "hint": "I trick the eyes, but not the mind.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "sunbeam",
+    "hint": "I am the golden touch that breaks through clouds, bringing warmth where shadows linger.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "firefly",
+    "hint": "I’m a little light in the dark, flashing in the night to guide you in secret ways.",
+    "language": "en"
+  },   {
+  "level": 2,
+  "word": "moonlight",
+  "hint": "I’m the silver touch that kisses the earth at night, soft, calm, and serene.",
+  "language": "en"
+},
+  {
+    "level": 2,
+    "word": "whirlwind",
+    "hint": "I spin fiercely, pulling everything in my path, then vanish in silence.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "journey",
+    "hint": "I start at one point, but the destination is often unknown.",
+    "language": "en"
+  },
+  {
+    "level": 2,
+    "word": "cocoon",
+    "hint": "I protect until you’re ready to emerge, but you won’t see me until it’s time.",
+    "language": "en"
+  },{
+  "level": 2,
+  "word": "melody",
+  "hint": "I dance through the air, a tune that lingers in your mind.",
+  "language": "en"
+},
+  {
+    "level": 3,
+    "word": "vivid",
+    "hint": "I’m the kind of color that makes you stop and stare, full of life and detail.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "paradox",
+    "hint": "I seem impossible, but I exist in the world of thought.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "gleam",
+    "hint": "I flash briefly, leaving a trace of light in the dark.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "radiant",
+    "hint": "I shine bright, but never burn; my glow lingers in the air.",
+    "language": "en"
+  },{
+  "level": 3,
+  "word": "eclipse",
+  "hint": "I hide the light, only to return with a shadow of mystery.",
+  "language": "en"
+}, {
+  "level": 3,
+  "word": "reflection",
+  "hint": "I show you what is, but not always what you expect to see.",
+  "language": "en"
+},
+  {
+    "level": 3,
+    "word": "infinity",
+    "hint": "Endless, yet never seen, I stretch beyond the stars.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "symphony",
+    "hint": "I am made of many voices, but I speak as one.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "nebula",
+    "hint": "A cosmic cloud where stars are born and dreams are made.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "mirage",
+    "hint": "I appear real, but I vanish when you get close.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "vortex",
+    "hint": "I pull things toward me, but I’m not alive.",
+    "language": "en"
+  },
+
+  {
+    "level": 3,
+    "word": "alchemy",
+    "hint": "I turn things into gold, but only in dreams.",
+    "language": "en"
+  },
+
+  {
+    "level": 3,
+    "word": "spectrum",
+    "hint": "A range of colors, though I’m not a rainbow.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "cliffhanger",
+    "hint": "I leave you hanging, waiting for more.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "silhouette",
+    "hint": "I’m a shadow, but I’m not dark.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "tapestry",
+    "hint": "I weave stories with threads of time.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "mystic",
+    "hint": "I hide secrets beyond the ordinary.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "chameleon",
+    "hint": "I change, but you might not notice.",
+    "language": "en"
+  },{
+  "level": 3,
+  "word": "kaleidoscope",
+  "hint": "I shift colors, but never stay still.",
+  "language": "en"
+},
+  {
+    "level": 3,
+    "word": "labyrinth",
+    "hint": "I confuse the lost, but I have no secret doors.",
+    "language": "en"
+  },
+
+  {
+    "level": 3,
+    "word": "pulse",
+    "hint": "I’m a beat, steady but fleeting.",
+    "language": "en"
+  },   {
+  "level": 3,
+  "word": "flower",
+  "hint": "I bloom, but I’m rooted in place.",
+  "language": "en"
+},{
+  "level": 3,
+  "word": "sailboat",
+  "hint": "I glide over the water, using the wind to carry me on my journey.",
+  "language": "en"
+}, {
+  "level": 3,
+  "word": "anchor",
+  "hint": "I keep you grounded, even in rough waters.",
+  "language": "en"
+}, {
+  "level": 3,
+  "word": "snowflake",
+  "hint": "No two of me are the same, yet I’m all alike.",
+  "language": "en"
+},
+  {
+    "level": 3,
+    "word": "forest",
+    "hint": "I stand tall with many voices, but I’m often silent.",
+    "language": "en"
+  },
+  {
+    "level": 3,
+    "word": "compass",
+    "hint": "I help you find your way when you're lost, pointing always to the north.",
+    "language": "en"
+  },{
+  "level": 3,
+  "word": "footprint",
+  "hint": "I tell a story of where you’ve been.",
+  "language": "en"
+},{
+  "level": 3,
+  "word": "mountain",
+  "hint": "I stand tall, but I’m not a giant.",
+  "language": "en"
+}, {
+  "level": 3,
+  "word": "comb",
+  "hint": "I untangle, but I never get messy.",
+  "language": "en"
+}, {
+  "level": 4,
+  "word": "cascade",
+  "hint": "I fall in stages, a continuous flow of liquid grace.",
+  "language": "en"
+},
+  {
+    "level": 4,
+    "word": "phantom",
+    "hint": "I’m a presence that can’t be seen, but can still be felt.",
+    "language": "en"
+  },
+  {
+    "level": 4,
+    "word": "oblivion",
+    "hint": "I’m the state of nothingness, where memory fades away.",
+    "language": "en"
+  },
+  {
+    "level": 4,
+    "word": "solace",
+    "hint": "I bring peace in moments of sorrow, a quiet refuge for the soul.",
+    "language": "en"
+  },
+  {
+    "level": 4,
+    "word": "serenade",
+    "hint": "I’m a song sung in the night, meant to calm and delight.",
+    "language": "en"
+  },
+  {
+    "level": 4,
+    "word": "whimsy",
+    "hint": "I’m a playful and unpredictable idea, ever-changing and light.",
+    "language": "en"
+  },
+  {
+    "level": 4,
+    "word": "treasure",
+    "hint": "I can be hidden, waiting to be discovered or lost forever.",
+    "language": "en"
+  },  {
+  "level": 4,
+  "word": "compromise",
+  "hint": "No one wins fully when I’m around — yet peace finds me.",
+  "language": "en"
+},
+  {
+    "level": 4,
+    "word": "enigma",
+    "hint": "I am a mystery, difficult to understand, yet impossible to ignore.",
+    "language": "en"
+  },
+  {
+    "level": 4,
+    "word": "reverie",
+    "hint": "I’m a daydream, a fleeting escape from reality.",
+    "language": "en"
+  },  {
+  "level": 4,
+  "word": "solstice",
+  "hint": "I mark the changing of the seasons, the longest or shortest day of the year.",
+  "language": "en"
+},
+  {
+    "level": 4,
+    "word": "phantasm",
+    "hint": "I’m a figment of imagination, something that only exists in the mind.",
+    "language": "en"
+  },  {
+  "level": 4,
+  "word": "celestial",
+  "hint": "I belong to the stars, far beyond the earth.",
+  "language": "en"
+},
+  {
+    "level": 4,
+    "word": "foundation",
+    "hint": "Without me, even castles crumble.",
+    "language": "en"
+  }, {
+  "level": 4,
+  "word": "recognition",
+  "hint": "I arrive with memory and name what once was vague.",
+  "language": "en"
+},
+    {
+  "level": 4,
+  "word": "anticipation",
+  "hint": "I come before the moment and stretch it thin.",
+  "language": "en"
+},
+  {
+    "level": 4,
+    "word": "vanguard",
+    "hint": "I am at the forefront, leading the way into new territory.",
+    "language": "en"
+  },  {
+  "level": 4,
+  "word": "transition",
+  "hint": "I live between moments, shifting what is to what will be.",
+  "language": "en"
+},
+  {
+    "level": 4,
+    "word": "resonance",
+    "hint": "I reverberate, echoing long after the sound is gone.",
+    "language": "en"
+  },  {
+  "level": 4,
+  "word": "zephyr",
+  "hint": "I am a gentle breeze, caressing everything in my path.",
+  "language": "en"
+},  {
+  "level": 5,
+  "word": "panacea",
+  "hint": "I am the cure-all, a remedy for every ill.",
+  "language": "en"
+},{
+  "level": 5,
+  "word": "intersection",
+  "hint": "Where paths cross, I wait — full of choice.",
+  "language": "en"
+},
+  {
+    "level": 5,
+    "word": "epiphany",
+    "hint": "I am a sudden realization, a flash of deep understanding.",
+    "language": "en"
+  }, {
+  "level": 5,
+  "word": "obfuscate",
+  "hint": "I obscure the truth, making things unclear on purpose.",
+  "language": "en"
+},  {
+  "level": 5,
+  "word": "seraphic",
+  "hint": "I am angelic, pure and radiant, untouched by earthly matters.",
+  "language": "en"
+},  {
+  "level": 5,
+  "word": "panorama",
+  "hint": "I am a wide, sweeping view of a landscape, far and wide.",
+  "language": "en"
+}, {
+  "level": 5,
+  "word": "catharsis",
+  "hint": "I am the release of pent-up emotion, leading to renewal.",
+  "language": "en"
+}, {
+  "level": 5,
+  "word": "luminous",
+  "hint": "I shine brightly in the dark, illuminating the path ahead.",
+  "language": "en"
+},
+  {
+    "level": 5,
+    "word": "negotiation",
+    "hint": "I’m the dance between two different needs.",
+    "language": "en"
+  },{
+  "level": 5,
+  "word": "sophisticated",
+  "hint": "I am complex and refined, intricate in my elegance.",
+  "language": "en"
+},
+
+  {
+    "level": 5,
+    "word": "nadir",
+    "hint": "I am the lowest point, the darkest moment in a person's life.",
+    "language": "en"
+  },
+  {
+    "level": 5,
+    "word": "resilience",
+    "hint": "I am the strength to recover from adversity or setbacks.",
+    "language": "en"
+  }, {
+  "level": 5,
+  "word": "elixir",
+  "hint": "I am a magical solution, a remedy that can bring renewal.",
+  "language": "en"
+},
+  {
+    "level": 5,
+    "word": "cerebral",
+    "hint": "I am intellectual, relating to the mind and its complex workings.",
+    "language": "en"
+  },
+  {
+    "level": 5,
+    "word": "turbulent",
+    "hint": "I am full of chaos, marked by disturbances and upheaval.",
+    "language": "en"
+  },
+  {
+    "level": 5,
+    "word": "manifestation",
+    "hint": "I’m thought taking form in the world.",
+    "language": "en"
+  },
+  {
+    "level": 5,
+    "word": "prodigal",
+    "hint": "I waste or spend money extravagantly, often recklessly.",
+    "language": "en"
+  },
+  {
+    "level": 5,
+    "word": "transparency",
+    "hint": "I show everything and hide nothing.",
+    "language": "en"
+  },
+
+  {
+    "level": 5,
+    "word": "incognito",
+    "hint": "I hide my true identity, blending in unnoticed.",
+    "language": "en"
+  },
+
+  {
+    "level": 5,
+    "word": "expectation",
+    "hint": "I’m what you build before reality knocks.",
+    "language": "en"
+  },{
+  "level": 6,
+  "word": "pseudonym",
+  "hint": "I am a false name, often used to hide the truth behind identity.",
+  "language": "en"
+},{
+  "level": 6,
+  "word": "enigma",
+  "hint": "I’m a mystery that even the sharpest minds can't solve.",
+  "language": "en"
+},{
+  "level": 6,
+  "word": "luminescence",
+  "hint": "I glow without heat, lighting up the dark.",
+  "language": "en"
+},{
+  "level": 6,
+  "word": "dilemma",
+  "hint": "I present a choice, but neither option feels right.",
+  "language": "en"
+},
+  {
+    "level": 6,
+    "word": "revelation",
+    "hint": "I bring forth the truth, often when it's least expected.",
+    "language": "en"
+  }
+,{
+  "level": 6,
+  "word": "perception",
+  "hint": "I shape the way you see the world, but I’m not always accurate.",
+  "language": "en"
+},{
+  "level": 6,
+  "word": "nostalgia",
+  "hint": "I pull you back to the past, making it feel both distant and close.",
+  "language": "en"
+}
+,{
+  "level": 6,
+  "word": "indifference",
+  "hint": "I neither care nor ignore, I simply don’t react.",
+  "language": "en"
+},{
+  "level": 6,
+  "word": "continuity",
+  "hint": "I connect the dots so nothing falls apart.",
+  "language": "en"
+},
+{
+  "level": 6,
+  "word": "friction",
+  "hint": "I cause resistance, sometimes slowing things down.",
+  "language": "en"
+},{
+  "level": 6,
+  "word": "symmetry",
+  "hint": "I’m balance and harmony, where one side mirrors the other.",
+  "language": "en"
+},{
+  "level": 6,
+  "word": "meticulous",
+  "hint": "I pay attention to every tiny detail, leaving nothing to chance.",
+  "language": "en"
+}
+,
+  {
+    "level": 6,
+    "word": "dystopia",
+    "hint": "I represent a world where everything is undesirable and chaotic.",
+    "language": "en"
+  },{
+  "level": 6,
+  "word": "aesthetic",
+  "hint": "I pertain to beauty, often found in art and design.",
+  "language": "en"
+},
+  {
+    "level": 6,
+    "word": "melancholy",
+    "hint": "I am a bittersweet feeling, like a song that plays in the background of your soul.",
+    "language": "en"
+  }, {
+  "level": 6,
+  "word": "transformation",
+  "hint": "I change everything, yet leave you somehow the same.",
+  "language": "en"
+},
+  {
+    "level": 6,
+    "word": "contemplate",
+    "hint": "I cause you to think deeply and carefully about something.",
+    "language": "en"
+  },
+  {
+    "level": 6,
+    "word": "profound",
+    "hint": "I carry great depth and meaning, far beyond the surface.",
+    "language": "en"
+  }, {
+  "level": 6,
+  "word": "inevitable",
+  "hint": "I am something that is certain to happen, no matter what.",
+  "language": "en"
+},
+  {
+    "level": 6,
+    "word": "phenomenon",
+    "hint": "I’m rare, remarkable, and often hard to explain.",
+    "language": "en"
+  }, {
+  "level": 7,
+  "word": "insidious",
+  "hint": "I am something that spreads slowly, often causing harm before being noticed.",
+  "language": "en"
+}, {
+  "level": 7,
+  "word": "zenith",
+  "hint": "I’m the peak, the highest point you can reach.",
+  "language": "en"
+}, {
+  "level": 7,
+  "word": "reluctant",
+  "hint": "I’m the feeling of hesitating or unwillingness to do something.",
+  "language": "en"
+}, {
+  "level": 7,
+  "word": "genuine",
+  "hint": "I’m something real, authentic, or sincere, without deceit.",
+  "language": "en"
+},
+  {
+    "level": 7,
+    "word": "intuitive",
+    "hint": "I’m the ability to understand or know something without reasoning.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "volatile",
+    "hint": "I’m something that changes unpredictably, often dangerously.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "cumbersome",
+    "hint": "I’m something heavy, awkward, and difficult to handle.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "consequence",
+    "hint": "I follow you without being seen — until I arrive.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "ambiguous",
+    "hint": "I’m something unclear, open to more than one interpretation.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "transient",
+    "hint": "I’m something temporary or fleeting, not meant to last.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "resonate",
+    "hint": "I’m to evoke a feeling or emotion, to strike a chord.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "nuance",
+    "hint": "I’m a subtle difference or variation.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "sublime",
+    "hint": "I’m of great beauty or excellence, often evoking awe.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "disparate",
+    "hint": "I’m distinct or different in kind, not alike.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "prodigy",
+    "hint": "I’m an extraordinary person, especially a young one with talent.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "audacity",
+    "hint": "I’m boldness or daring, often with disregard for safety or propriety.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "charisma",
+    "hint": "I’m a special magnetic quality that makes others want to follow or be near me.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "compelling",
+    "hint": "I’m so interesting or captivating that I can't be ignored.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "complexity",
+    "hint": "I’m what happens when simple parts refuse to stay simple.",
+    "language": "en"
+  },
+  {
+    "level": 7,
+    "word": "cogent",
+    "hint": "I’m an argument or case that’s clear, logical, and convincing.",
+    "language": "en"
+  }, {
+  "level": 8,
+  "word": "vigilant",
+  "hint": "I stay awake, alert for what others may miss.",
+  "language": "en"
+}, {
+  "level": 8,
+  "word": "moderation",
+  "hint": "I balance the extremes without applause.",
+  "language": "en"
+},
+  {
+    "level": 8,
+    "word": "precise",
+    "hint": "I never guess — I measure twice and cut once.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "invoke",
+    "hint": "I call forth — sometimes words, sometimes storms.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "fragment",
+    "hint": "I’m a piece of the whole — broken but revealing.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "essence",
+    "hint": "I’m not what you see, but what something truly is.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "remedy",
+    "hint": "I fix what hurts, though I may be bitter.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "tranquil",
+    "hint": "I’m the sound of still water and quiet skies.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "hesitate",
+    "hint": "I pause between the thought and the leap.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "burden",
+    "hint": "I weigh on your shoulders, though unseen.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "contrast",
+    "hint": "I show up best when placed beside my opposite.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "regret",
+    "hint": "I knock after the door is already closed.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "momentum",
+    "hint": "Once I start, I’m hard to stop.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "decline",
+    "hint": "I lower without lifting a finger.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "gesture",
+    "hint": "I speak volumes without saying a word.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "vulnerable",
+    "hint": "I open the door to hurt — and healing.",
+    "language": "en"
+  },{
+  "level": 8,
+  "word": "predict",
+  "hint": "I guess the future with a trace of logic.",
+  "language": "en"
+},
+  {
+    "level": 8,
+    "word": "synchronize",
+    "hint": "I make things move in perfect harmony.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "distract",
+    "hint": "I take your focus away without you even knowing.",
+    "language": "en"
+  },
+  {
+    "level": 8,
+    "word": "diligent",
+    "hint": "I never stop working, even when no one is watching.",
+    "language": "en"
+  },
+  {
+    "level": 9,
+    "word": "integrity",
+    "hint": "I stay true, even when tempted to bend.",
+    "language": "en"
+  },{
+  "level": 9,
+  "word": "fluctuate",
+  "hint": "I rise and fall, but never stay the same.",
+  "language": "en"
+}, {
+  "level": 9,
+  "word": "compose",
+  "hint": "I arrange elements to create something meaningful.",
+  "language": "en"
+},
+  {
+    "level": 9,
+    "word": "perceive",
+    "hint": "I let you see what’s hidden in plain sight.",
+    "language": "en"
+  },
+  {
+    "level": 9,
+    "word": "revive",
+    "hint": "I breathe life into what has been lost.",
+    "language": "en"
+  },
+  {
+    "level": 9,
+    "word": "elusive",
+    "hint": "I slip through your fingers just when you think you’ve caught me.",
+    "language": "en"
+  },{
+  "level": 9,
+  "word": "timid",
+  "hint": "I hide in the shadows, too shy to show myself.",
+  "language": "en"
+},
+  {
+    "level": 9,
+    "word": "persistence",
+    "hint": "I never give up, even when the path is tough.",
+    "language": "en"
+  }, {
+  "level": 9,
+  "word": "integrate",
+  "hint": "I bring together the separate pieces into a unified whole.",
+  "language": "en"
+},
+  {
+    "level": 9,
+    "word": "elevate",
+    "hint": "I lift you up to a higher place, both physically and mentally.",
+    "language": "en"
+  },
+  {
+    "level": 9,
+    "word": "compel",
+    "hint": "I drive you to act without giving you a choice.",
+    "language": "en"
+  },
+  {
+    "level": 9,
+    "word": "opposition",
+    "hint": "I stand where you push — sometimes in silence.",
+    "language": "en"
+  },
+  {
+    "level": 9,
+    "word": "elation",
+    "hint": "I am the intense joy that fills your heart without warning.",
+    "language": "en"
+  },{
+  "level": 9,
+  "word": "mystify",
+  "hint": "I leave you in confusion, wondering what lies beneath the surface.",
+  "language": "en"
+},
+  {
+    "level": 9,
+    "word": "complication",
+    "hint": "I arrive when simple things take a detour.",
+    "language": "en"
+  },
+  {
+    "level": 9,
+    "word": "omniscient",
+    "hint": "I know everything, all-seeing and all-knowing.",
+    "language": "en"
+  },
+  {
+    "level": 9,
+    "word": "idyllic",
+    "hint": "I represent perfect happiness, an idealized and peaceful scene.",
+    "language": "en"
+  },
+  {
+    "level": 9,
+    "word": "periphery",
+    "hint": "I am the outer edge or boundary of an area, object, or concept.",
+    "language": "en"
+  },{
+  "level": 9,
+  "word": "navigation",
+  "hint": "I guide without walking, helping you choose your next turn.",
+  "language": "en"
+},
+  {
+    "level": 9,
+    "word": "tangible",
+    "hint": "I describe something that can be perceived by touch or is concrete.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "exquisite",
+    "hint": "I describe something that is extremely beautiful and delicate.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "serendipitous",
+    "hint": "I describe something happening by chance in a happy or beneficial way.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "quintessential",
+    "hint": "I represent the perfect or most typical example of something.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "ineffable",
+    "hint": "I describe something too great or extreme to be expressed in words.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "reminiscence",
+    "hint": "I visit when you recall sweet fragments of the past.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "articulation",
+    "hint": "I help shape clear thoughts into spoken sounds.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "perseverance",
+    "hint": "I keep pushing forward even when everything says stop.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "inconvenience",
+    "hint": "I’m small and annoying but can ruin your mood.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "constellation",
+    "hint": "I’m a group of stars, but humans gave me stories.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "revolutionary",
+    "hint": "I change the game, not just play it.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "apprehension",
+    "hint": "I’m a tight knot before something unknown.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "acceleration",
+    "hint": "I make things faster before you notice it.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "elaboration",
+    "hint": "I turn a seed of thought into a forest.",
+    "language": "en"
+  },
+
+  {
+    "level": 10,
+    "word": "metamorphosis",
+    "hint": "I am a transformation, a complete change from one form to another.",
+    "language": "en"
+  },
+  {
+    "level": 10,
+    "word": "introspection",
+    "hint": "I am the act of looking within, examining your own thoughts and feelings.",
+    "language": "en"
+  },{
+  "level": 11,
+  "word": "reverberate",
+  "hint": "I echo and resound, repeating like a sound in a cavern.",
+  "language": "en"
+}, {
+  "level": 11,
+  "word": "supercilious",
+  "hint": "I am arrogantly superior, looking down on others.",
+  "language": "en"
+},
+  {
+    "level": 11,
+    "word": "voracious",
+    "hint": "I am insatiable, always hungry for more.",
+    "language": "en"
+  },
+  {
+    "level": 11,
+    "word": "reconciliation",
+    "hint": "I bring peace after silence or storms.",
+    "language": "en"
+  },
+  {
+    "level": 11,
+    "word": "fragmentation",
+    "hint": "I turn unity into scattered pieces.",
+    "language": "en"
+  },
+  {
+    "level": 11,
+    "word": "vulnerability",
+    "hint": "I’m openness, even when it might hurt.",
+    "language": "en"
+  },
+  {
+    "level": 11,
+    "word": "inexplicable",
+    "hint": "I defy logic, leaving you speechless and puzzled.",
+    "language": "en"
+  },
+  {
+    "level": 11,
+    "word": "vicarious",
+    "hint": "I’m experiencing something through someone else’s actions.",
+    "language": "en"
+  },
+  {
+    "level": 11,
+    "word": "precarious",
+    "hint": "I’m something risky or unstable, prone to danger.",
+    "language": "en"
+  }, {
+  "level": 11,
+  "word": "epiphany",
+  "hint": "I am a sudden moment of realization or insight.",
+  "language": "en"
+},{
+  "level": 11,
+  "word": "inquisitive",
+  "hint": "I’m always curious, seeking to know more about everything.",
+  "language": "en"
+},{
+  "level": 11,
+  "word": "exhilaration",
+  "hint": "I make your heart race, filling you with excitement.",
+  "language": "en"
+},
+  {
+    "level": 11,
+    "word": "anticipation",
+    "hint": "I come before the moment and stretch it thin.",
+    "language": "en"
+  },{
+  "level": 11,
+  "word": "luminescent",
+  "hint": "I glow in the dark, illuminating everything around me.",
+  "language": "en"
+},{
+  "level": 11,
+  "word": "transcendence",
+  "hint": "I am rising above, going beyond ordinary limits.",
+  "language": "en"
+},
+  {
+    "level": 12,
+    "word": "convoluted",
+    "hint": "I describe something that is extremely complex and difficult to follow.",
+    "language": "en"
+  },
+
+  {
+    "level": 12,
+    "word": "serendipity",
+    "hint": "I’m a happy accident, an unexpected gift found when least expected.",
+    "language": "en"
+  },
+  {
+    "level": 12,
+    "word": "catalyst",
+    "hint": "I spark change, a force that sets things in motion.",
+    "language": "en"
+  },{
+  "level": 12,
+  "word": "ethereal",
+  "hint": "I am light, airy, and almost untouchable.",
+  "language": "en"
+},{
+  "level": 12,
+  "word": "chimeric",
+  "hint": "I am an illusion, made up of impossible parts.",
+  "language": "en"
+}, {
+  "level": 12,
+  "word": "revelation",
+  "hint": "I appear when truth finally steps into the light.",
+  "language": "en"
+},
+  {
+    "level": 12,
+    "word": "contradiction",
+    "hint": "Two truths meet — I live in the clash.",
+    "language": "en"
+  },  {
+  "level": 12,
+  "word": "ambiguity",
+  "hint": "I live between meanings, where clarity blurs.",
+  "language": "en"
+},
+  {
+    "level": 12,
+    "word": "compliance",
+    "hint": "I nod along, even when I disagree inside.",
+    "language": "en"
+  },
+  {
+    "level": 12,
+    "word": "hypocrisy",
+    "hint": "I speak of virtue while wearing disguise.",
+    "language": "en"
+  },
+  {
+    "level": 12,
+    "word": "intervention",
+    "hint": "I step in when silence won't do.",
+    "language": "en"
+  },
+  {
+    "level": 12,
+    "word": "trajectory",
+    "hint": "I trace your path before your feet touch it.",
+    "language": "en"
+  },
+  {
+    "level": 12,
+    "word": "discretion",
+    "hint": "I speak when silence would still be wise.",
+    "language": "en"
+  },
+  {
+    "level": 12,
+    "word": "legitimacy",
+    "hint": "I wear the crown only if others believe it’s real.",
+    "language": "en"
+  },{
+  "level": 12,
+  "word": "facetious",
+  "hint": "I’m joking, even when I seem serious.",
+  "language": "en"
+},
+    {
+      "level": 1,
+      "word": "Apfel",
+      "hint": "Ich bin rot oder grün und halte den Arzt fern.",
+      "language": "de"
+    },
+    {
+      "level": 1,
+      "word": "Buch",
+      "hint": "Ich spreche nur, wenn du mich öffnest.",
+      "language": "de"
+    },
+    {
+      "level": 1,
+      "word": "Stuhl",
+      "hint": "Ich habe vier Beine, aber gehe nie.",
+      "language": "de"
+    },
+    {
+      "level": 1,
+      "word": "Milch",
+      "hint": "Ich bin weiß, kalt und wohne im Kühlschrank.",
+      "language": "de"
+    },
+    {
+      "level": 1,
+      "word": "Ball",
+      "hint": "Ich rolle gern und liebe das Spiel.",
+      "language": "de"
+    },
+    {
+      "level": 1,
+      "word": "Sonne",
+      "hint": "Ich bin heiß und verschwinde bei Nacht.",
+      "language": "de"
+    },
+    {
+      "level": 1,
+      "word": "Auto",
+      "hint": "Ich fahre schnell, doch habe keine Füße.",
+      "language": "de"
+    },
+    {
+      "level": 1,
+      "word": "Baum",
+      "hint": "Ich stehe still und verliere im Herbst mein Kleid.",
+      "language": "de"
+    },
+    {
+      "level": 1,
+      "word": "Uhr",
+      "hint": "Ich habe Zeiger, aber keine Hände.",
+      "language": "de"
+    },
+    {
+      "level": 1,
+      "word": "Schuh",
+      "hint": "Ich gehe mit dir, aber nie allein.",
+      "language": "de"
+    }
+
+
+]

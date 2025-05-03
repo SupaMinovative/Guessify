@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Level1Activity extends AppCompatActivity implements GameDisplayAdapter.OnLastWordCompletionListener{
+public class Level2Activity extends AppCompatActivity implements GameDisplayAdapter.OnLastWordCompletionListener{
 
 
     private List<Word> wordList = new ArrayList<>();
@@ -46,11 +46,11 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) {
             @Override
             public boolean canScrollHorizontally() {
-                    return false;
+                return false;
             }
         });
 
-        level = 1;
+        level = 2;
         language = getIntent().getStringExtra("LANGUAGE_SELECTED");
         starReward = getIntent().getIntExtra("STAR_REWARD", 0);
         recyclerView.setAdapter(adapter);
@@ -98,21 +98,21 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
 
         }).start();
     }*/
-private void shuffleWordList(List<Word> gameWordList) {
+    private void shuffleWordList(List<Word> gameWordList) {
 
-    Collections.shuffle(gameWordList);
-    int maxIndex = Math.min(4, gameWordList.size());
-    wordList.clear();
-    wordList.addAll(gameWordList.subList(0, maxIndex));
-    runOnUiThread(() -> {
-        adapter.notifyDataSetChanged();
-    });
-}
+        Collections.shuffle(gameWordList);
+        int maxIndex = Math.min(4, gameWordList.size());
+        wordList.clear();
+        wordList.addAll(gameWordList.subList(0, maxIndex));
+        runOnUiThread(() -> {
+            adapter.notifyDataSetChanged();
+        });
+    }
 
     @Override
     public void onLastWordReached(int roundStarCount, int roundLife) {
 
-    Log.d ("DEBUG", "Callback triggered, starting new intent");
+        Log.d ("DEBUG", "Callback triggered, starting new intent");
 
         Intent intent = new Intent(this, GameSummary.class);
         intent.putExtra("STAR_EARNED", roundStarCount);

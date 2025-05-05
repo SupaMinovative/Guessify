@@ -32,17 +32,20 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
     int wordCounter = 0;
     Word currentWord;
     private OnLastWordCompletionListener listener;
+    int currentLevel;
 
     List<EditText> editTextList = new ArrayList<>();
-    public GameDisplayAdapter(List<Word> wordList, RecyclerView recyclerView, Context context, OnLastWordCompletionListener listener) {
+    public GameDisplayAdapter(List<Word> wordList, RecyclerView recyclerView, Context context, OnLastWordCompletionListener listener, int currentLevel) {
         this.wordList = wordList;
         this.recyclerView = recyclerView;
         this.context = context;
         this.listener = listener;
+        this.currentLevel = currentLevel;
     }
 
     public interface OnLastWordCompletionListener {
         void onLastWordReached(int roundStarCount, int roundLife);
+        void onEndLevelUpdate();
 
     }
     @NonNull
@@ -165,29 +168,14 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
             if (listener != null) {
                 Log.d ("DEBUG", "On last card reached");
                 listener.onLastWordReached(starCount, lifeCount);
+                listener.onEndLevelUpdate();
+                Log.d ("DEBUG", "On End level update triggered");
             }
         }
     }
-    public static void saveStarsToDatabase(int starCount) {
-
-         new Thread(() -> {
 
 
-                 AppDatabase db = AppDatabase.getInstance(context);
-                 GameStateDao gameStateDao = db.gameStateDao();
 
-             GameState currentState = gameStateDao.getGameState();
-
-            if (currentState == null) {
-                currentState = new GameState();
-                currentState.setStarCount(starCount);
-                gameStateDao.insertGameState(currentState);
-            } else {
-                currentState.setStarCount(starCount);
-                gameStateDao.insertGameState(currentState);
-            }
-         }).start();
-     }
     public static class GameDisplayViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout wordContainer;

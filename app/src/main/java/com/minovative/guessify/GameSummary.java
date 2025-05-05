@@ -1,8 +1,10 @@
 package com.minovative.guessify;
 
-import static com.minovative.guessify.GameDisplayAdapter.saveStarsToDatabase;
-import static com.minovative.guessify.MainActivity.shakeButton;
 
+import static com.minovative.guessify.MainActivity.shakeButton;
+import static com.minovative.guessify.SaveAndLoadDataHelper.saveStarsToDatabase;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -36,7 +38,7 @@ public class GameSummary extends AppCompatActivity {
         int starReward = getIntent().getIntExtra("STAR_REWARD" ,0);
         int totalStars = starCount+starReward+lifeCount;
 
-        saveStarsToDatabase(totalStars);
+        saveStarsToDatabase(totalStars, getApplication());
 
         stars.setText(generatedStar(lifeCount));
 

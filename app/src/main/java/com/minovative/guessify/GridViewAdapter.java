@@ -1,48 +1,54 @@
 package com.minovative.guessify;
 
-import static com.minovative.guessify.GameDisplayAdapter.saveStarsToDatabase;
 import static com.minovative.guessify.MainActivity.shakeButton;
+import static com.minovative.guessify.SaveAndLoadDataHelper.saveLevelStateToDatabase;
+import static com.minovative.guessify.SaveAndLoadDataHelper.saveStarsToDatabase;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.CycleInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
-import org.w3c.dom.Text;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class GridViewAdapter extends ArrayAdapter<Level> {
-    private TextView levelTextView;
-    private TextView difficultyTextView;
-    private Button unlockButton;
 
-    private Button startButton;
     ImageView lockButton;
+    TextView levelTextView;
+    TextView difficultyTextView;
+    Button unlockButton;
+    Button startButton;
     private int starReward;
     private int starTotal;
+    private List<Level> levelList;
 
     String language;
 
     private Context context;
 
+    private OnStarTotalLoaded starLoadedCallback;
 
-    public GridViewAdapter(Context context ,List<Level> list ,String language) {
-        super(context ,0 ,list);
+    private int finalStarTotal;
+    private Level level;
+    private  int currentLevel;
+    private Activity activity;
+    private Application application;
+
+
+    public GridViewAdapter(Activity activity,List<Level> list ,String language) {
+        super(activity ,0 ,list);
+        this.activity = activity;
         this.language = language;
+          application = activity.getApplication();
 
         }
 
@@ -60,37 +66,50 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
             lockButton = convertView.findViewById(R.id.lockButton);
             startButton = convertView.findViewById(R.id.startButton);
 
-            Level level = getItem(position);
-            starReward = level.getStarRewarded();
 
-            boolean levelUnlocked = level.isUnlocked();
-            boolean levelPlay = level.isPlay();
-
-            getStarFromDatabase();
+                Log.e("DEBUG" ,"Level is getting position.");
 
 
-            if (levelUnlocked != false && levelPlay) {
-                shakeButton(unlockButton);
-            }
+                level = getItem(position);
 
 
-            if (levelTextView != null) {
+                currentLevel = level.getLevel();
+                Log.d("DEBUG" ,"Position: " + position + ", Current level: " + currentLevel);
+                starReward = level.getStarRewarded();
 
-                levelTextView.setText("Level " + level.getLevel());
-            }
+                boolean levelUnlocked = level.isUnlocked();
+                boolean levelPlay = level.isPlay();
 
-            if (difficultyTextView != null) {
+                Log.d("DEBUG" ,"stars from database" + starTotal);
 
-                difficultyTextView.setText(level.getDifficulty());
-            }
-
-            if (unlockButton != null) {
-                if ("en".equals(language)) {
-
-                    unlockButton.setText("Unlock with " + level.getStarRequired() + " ⭐");
-                } else if ("de".equals(language)) {
-                    unlockButton.setText("Freischalten mit " + level.getStarRequired() + " ⭐");
+                if (levelUnlocked) {
+                    startButton.setVisibility(View.VISIBLE);
+                } else if (!levelUnlocked && !levelPlay) {
+                    unlockButton.setVisibility(View.VISIBLE);
+                    lockButton.setVisibility(View.VISIBLE);
+                    shakeButton(unlockButton);
+                } else {
+                    unlockButton.setVisibility(View.VISIBLE);
+                    lockButton.setVisibility(View.VISIBLE);
                 }
+
+                if (levelTextView != null) {
+
+                    levelTextView.setText("Level " + level.getLevel());
+                }
+
+                if (difficultyTextView != null) {
+
+                    difficultyTextView.setText(level.getDifficulty());
+                }
+
+                if (unlockButton != null) {
+                    if ("en".equals(language)) {
+
+                        unlockButton.setText("Unlock with " + level.getStarRequired() + " ⭐");
+                    } else if ("de".equals(language)) {
+                        unlockButton.setText("Freischalten mit " + level.getStarRequired() + " ⭐");
+                    }
                 /*
                 if (unlockButton != null) {
 
@@ -118,40 +137,105 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
                     });
                 }*/
 
-                int currentLevel = level.getLevel();
-                int starRequired = level.getStarRequired();
-                switch (currentLevel) {
-                    case 1:
-                        unlockButton.setOnClickListener(View -> {
-                            level.setUnlocked(true);
-                            level.setPlay(true);
-                            startUnlockButton(level);
-                        });
-                        break;
-                    case 2:
 
-                        unlockButton.setOnClickListener(View -> {
-
-                            startUnlockButton(level);
-                           ((Activity) context).runOnUiThread(() -> {
-
-                                starTotal -= starRequired;
-                                saveStarsToDatabase(starTotal);
-                                level.setUnlocked(true);
-                                level.setPlay(true);
-                            });
-                        });
-                        break;
-                    default: unlockButton.setOnClickListener(View -> {
-                        startUnlockButton(level);
-                    });
                 }
 
-            };
-        }
-        return convertView;
+                GameDisplayAdapter.OnLastWordCompletionListener listener = new GameDisplayAdapter.OnLastWordCompletionListener() {
+                    @Override
+                    public void onLastWordReached(int roundStarCount, int roundLife) {
+
+                    }
+
+                    @Override
+                    public void onEndLevelUpdate() {
+                        Log.d("DEBUG" ,"Level play status: " + level.isPlay());
+                        level.setPlay(true);
+                        Log.d("DEBUG" ,"Level unlocked: " + level.isUnlocked());
+                        level.setUnlocked(true);
+                        Log.d ("DEBUG", "Save data triggered, updating level state. Level " + level + " Language " + language);
+                        saveLevelStateToDatabase(activity,currentLevel,language);
+                    }
+                };
+
+                getStarFromDatabase(new OnStarTotalLoaded() {
+                    @Override
+                    public void onStarTotalLoaded(int loadedStarTotal) {
+                        finalStarTotal = loadedStarTotal;
+                        int currentLevel = level.getLevel();
+                        int starRequired = level.getStarRequired();
+                        switch (currentLevel) {
+                            case 1:
+                                unlockButton.setOnClickListener(View -> {
+
+                                    Log.d("DEBUG" ,"Intent clicked starting new intent" + level);
+                                    setButtonUnlockedLevel(level);
+                                    Log.d("DEBUG" ,"setButtonUnlockedLevel triggered");
+
+                                });
+                                break;
+                            case 2:
+
+                                unlockButton.setOnClickListener(View -> {
+                                    Log.d("DEBUG" ,"Current Level clicked" + level);
+                                    Log.d("DEBUG" ,"Star from database" + finalStarTotal + "Star Required " + starRequired);
+                                    if (finalStarTotal >= starRequired) {
+                                        finalStarTotal -= starRequired;
+                                    }
+                                    startUnlockButton(level);
+                                    Log.d("DEBUG" ,"Intent clicked starting new intent" + level);
+                                    Log.d("DEBUG" ,"stars after deducted" + finalStarTotal);
+
+
+                                    starLoadedCallback.onStarTotalUpdated(finalStarTotal);
+
+                                });
+                                break;
+                            default:
+                                unlockButton.setOnClickListener(View -> {
+                                    startUnlockButton(level);
+                                });
+                        }
+                    }
+
+                    @Override
+                    public void onStarTotalUpdated(int updatedStarTotal) {
+                        saveStarsToDatabase(finalStarTotal, application);
+
+                    }
+                });
+        } return convertView;
     }
- 
+/*
+    public void setLevelList(List<Level> levelList) {
+        this.levelList = levelList;
+    }*/
+    private void setButtonUnlockedLevel(Level level) {
+        startUnlockButton(level);
+        unlockButton.setVisibility(View.GONE);
+        lockButton.setVisibility(View.GONE);
+        startButton.setVisibility(View.VISIBLE);
+        level.setUnlocked(true);
+        level.setPlay(true);
+    }
+
+    public void getStarFromDatabase(OnStarTotalLoaded starLoadedCallback) {
+
+        new Thread(() -> {
+
+
+            AppDatabase db = AppDatabase.getInstance(getContext());
+            GameStateDao gameStateDao = db.gameStateDao();
+
+             starTotal = gameStateDao.getStarCount();
+
+             starLoadedCallback.onStarTotalLoaded(starTotal);
+
+
+
+        }).start();
+    }
+
+
 
     private void startUnlockButton(Level level) {
 
@@ -164,6 +248,7 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
             }
                 intent.putExtra("LANGUAGE_SELECTED", language);
                 intent.putExtra("STAR_REWARD", starReward);
+        intent.putExtra("CURRENT_LEVEL", currentLevel);
  getContext().startActivity(intent);
                 lockButton.setVisibility(View.GONE);
                 unlockButton.setVisibility(View.GONE);
@@ -171,9 +256,6 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
 
         Log.d("DEBUG" ,"LANGUAGE SELECTED" + language);
                 };
-
-
-
 
 
     private Intent getActivityName(int level) throws ClassNotFoundException {
@@ -196,6 +278,7 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
 
         }
     }
+
 
 
 }

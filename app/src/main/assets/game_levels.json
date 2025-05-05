@@ -1,0 +1,29 @@
+[
+  {
+    "level": 1,
+    "difficulty": "easy",
+    "starRequired": 0,
+    "starRewarded": 5,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  },
+  {
+    "level": 2,
+    "difficulty": "easy",
+    "starRequired": 10,
+    "starRewarded": 10,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  },
+  {
+    "level": 3,
+    "difficulty": "easy",
+    "starRequired": 20,
+    "starRewarded": 20,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  }
+]

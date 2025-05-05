@@ -33,7 +33,7 @@ public class Level2Activity extends AppCompatActivity implements GameDisplayAdap
     String language;
     private int starEarned;
     private int starReward;
-
+    int currentLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class Level2Activity extends AppCompatActivity implements GameDisplayAdap
         setContentView(R.layout.activity_level1);
 
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new GameDisplayAdapter(wordList,recyclerView,this, this);
+        adapter = new GameDisplayAdapter(wordList,recyclerView,this, this,currentLevel);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) {
             @Override
             public boolean canScrollHorizontally() {
@@ -53,6 +53,8 @@ public class Level2Activity extends AppCompatActivity implements GameDisplayAdap
         level = 2;
         language = getIntent().getStringExtra("LANGUAGE_SELECTED");
         starReward = getIntent().getIntExtra("STAR_REWARD", 0);
+
+        currentLevel = getIntent().getIntExtra("CURRENT_LEVEL", 0);
         recyclerView.setAdapter(adapter);
         loadJsonAndInsert();
 
@@ -119,6 +121,11 @@ public class Level2Activity extends AppCompatActivity implements GameDisplayAdap
         intent.putExtra("LIFE_SUMMARY", roundLife);
         intent.putExtra("STAR_REWARD", starReward);
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onEndLevelUpdate() {
 
     }
 }

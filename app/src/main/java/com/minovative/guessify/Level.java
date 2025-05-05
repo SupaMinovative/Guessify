@@ -1,22 +1,31 @@
 package com.minovative.guessify;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(primaryKeys = {"level" , "language"})
 public class Level {
 
+    @ColumnInfo(name ="level")
     @NonNull
     private int level;
+
+    @ColumnInfo(name = "language")
     @NonNull
     private String language;
-    private String difficulty;
-    private int starRequired;
-    private int starRewarded;
-    private boolean isUnlocked;
-    private boolean isPlay;
 
+    private String difficulty;
+    @ColumnInfo(name ="star_required")
+    private int starRequired;
+
+    @ColumnInfo(name ="star_rewarded")
+    private int starRewarded;
+    @ColumnInfo(name ="isUnlocked")
+    private boolean isUnlocked;
+    @ColumnInfo(name ="isPlay")
+    private boolean isPlay;
 
 
     public Level(int level,String difficulty,int starRequired,int starRewarded,boolean isUnlocked,String language, boolean isPlay) {
@@ -27,6 +36,10 @@ public class Level {
         this.isUnlocked = isUnlocked;
         this.isPlay = isPlay;
         this.language = language;
+    }
+
+    public Level() {
+
     }
 
     public int getLevel() {

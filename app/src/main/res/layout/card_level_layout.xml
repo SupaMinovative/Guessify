@@ -59,6 +59,7 @@
                 android:textAlignment="center"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,12 +71,13 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="16dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/unlockButton"
-                app:srcCompat="@drawable/ic_lock"/>
+                app:srcCompat="@drawable/ic_lock" />
 
             <Button
                 android:id="@+id/startButton"
@@ -83,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="#8BC34A"
-                android:text="Button"
+                android:text="START"
                 android:textAlignment="textStart"
                 android:textSize="16sp"
                 android:textStyle="bold"

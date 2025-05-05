@@ -1,6 +1,7 @@
 package com.minovative.guessify;
 
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
     String language;
     private int starEarned;
     private int starReward;
+    private int currentLevel;
 
 
     @Override
@@ -42,7 +44,7 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
         setContentView(R.layout.activity_level1);
 
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new GameDisplayAdapter(wordList,recyclerView,this, this);
+        adapter = new GameDisplayAdapter(wordList,recyclerView,this, this, currentLevel);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) {
             @Override
             public boolean canScrollHorizontally() {
@@ -53,6 +55,7 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
         level = 1;
         language = getIntent().getStringExtra("LANGUAGE_SELECTED");
         starReward = getIntent().getIntExtra("STAR_REWARD", 0);
+        currentLevel = getIntent().getIntExtra("CURRENT_LEVEL", 0);
         recyclerView.setAdapter(adapter);
         loadJsonAndInsert();
 
@@ -112,13 +115,19 @@ private void shuffleWordList(List<Word> gameWordList) {
     @Override
     public void onLastWordReached(int roundStarCount, int roundLife) {
 
-    Log.d ("DEBUG", "Callback triggered, starting new intent");
-
+        Log.d ("DEBUG", "Callback triggered, starting new intent");
         Intent intent = new Intent(this, GameSummary.class);
         intent.putExtra("STAR_EARNED", roundStarCount);
         intent.putExtra("LIFE_SUMMARY", roundLife);
         intent.putExtra("STAR_REWARD", starReward);
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onEndLevelUpdate() {
+
+
 
     }
 }

@@ -1,5 +1,7 @@
 package com.minovative.guessify;
 
+import static com.minovative.guessify.SaveAndLoadDataHelper.saveLevelStateToDatabase;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,17 +20,30 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private GridView gridView;
     private TextView star;
-
+Button testButton;
     private SharedPreferences prefs;
     private String currentLanguage;
     Toolbar toolbar;
+    private AppDatabase db;
+    GridViewAdapter adapter;
+   // LevelViewModel viewModel;
+    private Level level;
+
+    List<Level> levelList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        testButton = findViewById(R.id.testButton);
         star = findViewById(R.id.starMain);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -44,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+/*
+        viewModel = new ViewModelProvider(this).get(LevelViewModel.class);
+
+        viewModel.getLevelList().observe(this, levels -> {
+            adapter.clear();
+            adapter.addAll(levels);
+            adapter.notifyDataSetChanged();
+        });*/
 
         new Thread(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
@@ -55,18 +79,23 @@ public class MainActivity extends AppCompatActivity {
             });
         }).start();
 
-        setAdapter();
+setAdapter();
+        loadJsonAndInsert();
 
     }
+
 
 
     public void setAdapter() {
         gridView = findViewById(R.id.gridView);
         gridView.setNumColumns(2);
-        List<Level> levelList = new ArrayList<>();
-        prefs = getSharedPreferences("LangPrefs",  MODE_PRIVATE);
-        currentLanguage = prefs.getString("language", "en");
 
+        prefs = getSharedPreferences("LangPrefs" ,MODE_PRIVATE);
+        currentLanguage = prefs.getString("language" ,"en");
+        adapter = new GridViewAdapter(this ,levelList ,currentLanguage);
+        gridView.setAdapter(adapter);
+    }
+/*
         if ("en".equals(currentLanguage)) {
 
             levelList.add(new Level(1 ,"easy" ,0 ,5 ,true ,"en", false));
@@ -82,7 +111,56 @@ public class MainActivity extends AppCompatActivity {
         }
         GridViewAdapter adapter = new GridViewAdapter(this ,levelList, currentLanguage);
         gridView.setAdapter(adapter);
-    }
+    }*/
+private void loadJsonAndInsert() {
+
+    new Thread(() -> {
+
+        String jsonString = null;
+
+        try {
+            jsonString = LevelJsonUtils.AssetsJsonFile(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Gson gson = new Gson();
+        Type levelListType = new TypeToken<List<Level>>(){
+
+        }.getType();
+        List<Level> loadedLevel = gson.fromJson(jsonString, levelListType);
+
+        db = AppDatabase.getInstance(this);
+        LevelDao levelDao = db.levelDao();
+
+        levelDao.insertAllLevelState(loadedLevel);
+
+        List<Level> levelListFromDatabase = levelDao.getLevelByLanguage(currentLanguage);
+/*
+        LevelViewModel levelViewModel = new ViewModelProvider(this,
+                new LevelViewModel(getApplication(),levelDao,currentLanguage)).get(LevelViewModel.class);
+        levelViewModel.getLevelByLanguage(currentLanguage).observe(this, levels -> {
+*/
+
+            levelList.addAll(levelListFromDatabase);
+            level = levelList.get(0);
+            int level1 = level.getLevel();
+
+            runOnUiThread(() -> {
+                adapter.notifyDataSetChanged();
+
+                testButton.setOnClickListener(view -> {
+                    saveLevelStateToDatabase(this,level1,currentLanguage);
+
+                });
+
+            });
+        }).start();
+
+
+
+}
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
         popup.show();
     }
+
 
     public void saveLanguage(String language) {
         prefs = getSharedPreferences("LangPrefs" ,Context.MODE_PRIVATE);

@@ -2,12 +2,17 @@ package com.minovative.guessify;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+
+import java.util.List;
 
 public class SaveAndLoadDataHelper {
 
-
+    public interface OnLevelDataFetchedCallback {
+        void onFetched(List<Level> levelList);
+    }
     public static void saveStarsToDatabase(int starCount, Application application) {
 
         new Thread(() -> {
@@ -25,6 +30,21 @@ public class SaveAndLoadDataHelper {
             } else {
                 currentState.setStarCount(starCount);
                 gameStateDao.insertGameState(currentState);
+            }
+        }).start();
+    }
+
+    public static void getLevelStateFromDatabase(Activity activity, String language, OnLevelDataFetchedCallback callback) {
+
+        new Thread(() -> {
+
+            AppDatabase db = AppDatabase.getInstance(activity.getApplicationContext());
+
+            LevelDao levelDao = db.levelDao();
+
+            List<Level> currentLevelState = levelDao.getLevelByLanguage(language);
+            if (callback != null) {
+                new Handler(Looper.getMainLooper()).post(() -> callback.onFetched(currentLevelState));
             }
         }).start();
     }

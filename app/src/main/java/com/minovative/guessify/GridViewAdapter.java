@@ -4,6 +4,7 @@ import static com.minovative.guessify.MainActivity.shakeButton;
 import static com.minovative.guessify.SaveAndLoadDataHelper.saveLevelStateToDatabase;
 import static com.minovative.guessify.SaveAndLoadDataHelper.saveStarsToDatabase;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -36,23 +37,32 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
     private Context context;
 
     private OnStarTotalLoaded starLoadedCallback;
+    private OnUnlockButtonClickedCallback unlockCallback;
 
     private int finalStarTotal;
     private Level level;
-    private  int currentLevel;
+    private int currentLevel;
     private Activity activity;
     private Application application;
+    private boolean levelUnlocked;
 
 
-    public GridViewAdapter(Activity activity,List<Level> list ,String language) {
+    public GridViewAdapter(Activity activity ,List<Level> list ,String language ,OnUnlockButtonClickedCallback callback) {
         super(activity ,0 ,list);
         this.activity = activity;
         this.language = language;
-          application = activity.getApplication();
+        this.application = activity.getApplication();
+        this.unlockCallback = callback;
 
-        }
+    }
 
+    public interface OnUnlockButtonClickedCallback {
+        void onUnlockedButton(int currentLevel);
+    }
 
+    public void setOnUnlockButtonClickedCallback(OnUnlockButtonClickedCallback callback) {
+        this.unlockCallback = callback;
+    }
 
     @Override
     public View getView(int position ,View convertView ,ViewGroup parent) {
@@ -66,50 +76,63 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
             lockButton = convertView.findViewById(R.id.lockButton);
             startButton = convertView.findViewById(R.id.startButton);
 
+            level = getItem(position);
 
-                Log.e("DEBUG" ,"Level is getting position.");
+            currentLevel = level.getLevel();
+            Log.d("DEBUG" ,"Position: " + position + ", Current level: " + currentLevel);
+            starReward = level.getStarRewarded();
+
+            SaveAndLoadDataHelper.getLevelStateFromDatabase(activity ,language ,newLevelList -> {
+
+            });
+
+            new Thread (() -> {
+
+                AppDatabase db = AppDatabase.getInstance(context);
+                LevelDao levelDao = db.levelDao();
+
+                Level currentLevelState = levelDao.getLevel(currentLevel,language);
+
+            }).start();
 
 
-                level = getItem(position);
 
+            Log.d("DEBUG" ,"stars from database" + starTotal);
 
-                currentLevel = level.getLevel();
-                Log.d("DEBUG" ,"Position: " + position + ", Current level: " + currentLevel);
-                starReward = level.getStarRewarded();
+            OnUnlockButtonClickedCallback unlockListener = (v -> {
+                if (unlockCallback != null) {
+                    unlockCallback.onUnlockedButton(currentLevel);
+                }
+            });
 
-                boolean levelUnlocked = level.isUnlocked();
-                boolean levelPlay = level.isPlay();
-
-                Log.d("DEBUG" ,"stars from database" + starTotal);
-
-                if (levelUnlocked) {
-                    startButton.setVisibility(View.VISIBLE);
-                } else if (!levelUnlocked && !levelPlay) {
+            if (levelUnlocked) {
+                startButton.setVisibility(View.VISIBLE);
+            } else if (!levelUnlocked && !levelPlay) {
+                unlockButton.setVisibility(View.VISIBLE);
+                lockButton.setVisibility(View.VISIBLE);
+                shakeButton(unlockButton);
+            } /* else {
                     unlockButton.setVisibility(View.VISIBLE);
                     lockButton.setVisibility(View.VISIBLE);
-                    shakeButton(unlockButton);
-                } else {
-                    unlockButton.setVisibility(View.VISIBLE);
-                    lockButton.setVisibility(View.VISIBLE);
+                }*/
+
+            if (levelTextView != null) {
+
+                levelTextView.setText("Level " + level.getLevel());
+            }
+
+            if (difficultyTextView != null) {
+
+                difficultyTextView.setText(level.getDifficulty());
+            }
+
+            if (unlockButton != null) {
+                if ("en".equals(language)) {
+
+                    unlockButton.setText("Unlock with " + level.getStarRequired() + " ⭐");
+                } else if ("de".equals(language)) {
+                    unlockButton.setText("Freischalten mit " + level.getStarRequired() + " ⭐");
                 }
-
-                if (levelTextView != null) {
-
-                    levelTextView.setText("Level " + level.getLevel());
-                }
-
-                if (difficultyTextView != null) {
-
-                    difficultyTextView.setText(level.getDifficulty());
-                }
-
-                if (unlockButton != null) {
-                    if ("en".equals(language)) {
-
-                        unlockButton.setText("Unlock with " + level.getStarRequired() + " ⭐");
-                    } else if ("de".equals(language)) {
-                        unlockButton.setText("Freischalten mit " + level.getStarRequired() + " ⭐");
-                    }
                 /*
                 if (unlockButton != null) {
 
@@ -138,77 +161,79 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
                 }*/
 
 
+            }
+
+            GameDisplayAdapter.OnLastWordCompletionListener listener = new GameDisplayAdapter.OnLastWordCompletionListener() {
+                @Override
+                public void onLastWordReached(int roundStarCount ,int roundLife) {
+
                 }
 
-                GameDisplayAdapter.OnLastWordCompletionListener listener = new GameDisplayAdapter.OnLastWordCompletionListener() {
-                    @Override
-                    public void onLastWordReached(int roundStarCount, int roundLife) {
+                @Override
+                public void onEndLevelUpdate( ) {
+                    Log.d("DEBUG" ,"Level play status: " + level.isPlay());
+                    level.setPlay(true);
+                    Log.d("DEBUG" ,"Level unlocked: " + level.isUnlocked());
+                    level.setUnlocked(true);
+                    Log.d("DEBUG" ,"Save data triggered, updating level state. Level " + level + " Language " + language);
+                    saveLevelStateToDatabase(activity ,currentLevel ,language);
+                }
+            };
 
+            getStarFromDatabase(new OnStarTotalLoaded() {
+                @Override
+                public void onStarTotalLoaded(int loadedStarTotal) {
+                    finalStarTotal = loadedStarTotal;
+                    int currentLevel = level.getLevel();
+                    int starRequired = level.getStarRequired();
+                    switch (currentLevel) {
+                        case 1:
+                            unlockButton.setOnClickListener(View -> {
+
+                                Log.d("DEBUG" ,"Intent clicked starting new intent" + level);
+                                setButtonUnlockedLevel(level);
+                                unlockListener.onUnlockedButton(currentLevel);
+                                notifyDataSetChanged();
+                                Log.d("DEBUG" ,"setButtonUnlocked Listener triggered");
+
+                            });
+                            break;
+                        case 2:
+
+                            unlockButton.setOnClickListener(View -> {
+
+                                unlockListener.onUnlockedButton(currentLevel);
+                                Log.d("DEBUG" ,"Current Level clicked" + level);
+                                Log.d("DEBUG" ,"Star from database" + finalStarTotal + "Star Required " + starRequired);
+                                if (finalStarTotal >= starRequired) {
+                                    finalStarTotal -= starRequired;
+                                }
+                                startUnlockButton(level);
+                                Log.d("DEBUG" ,"Intent clicked starting new intent" + level);
+                                Log.d("DEBUG" ,"stars after deducted" + finalStarTotal);
+
+
+                                starLoadedCallback.onStarTotalUpdated(finalStarTotal);
+
+                            });
+                            break;
+                        default:
+                            unlockButton.setOnClickListener(View -> {
+                                startUnlockButton(level);
+                            });
                     }
+                }
 
-                    @Override
-                    public void onEndLevelUpdate() {
-                        Log.d("DEBUG" ,"Level play status: " + level.isPlay());
-                        level.setPlay(true);
-                        Log.d("DEBUG" ,"Level unlocked: " + level.isUnlocked());
-                        level.setUnlocked(true);
-                        Log.d ("DEBUG", "Save data triggered, updating level state. Level " + level + " Language " + language);
-                        saveLevelStateToDatabase(activity,currentLevel,language);
-                    }
-                };
+                @Override
+                public void onStarTotalUpdated(int updatedStarTotal) {
+                    saveStarsToDatabase(finalStarTotal ,application);
 
-                getStarFromDatabase(new OnStarTotalLoaded() {
-                    @Override
-                    public void onStarTotalLoaded(int loadedStarTotal) {
-                        finalStarTotal = loadedStarTotal;
-                        int currentLevel = level.getLevel();
-                        int starRequired = level.getStarRequired();
-                        switch (currentLevel) {
-                            case 1:
-                                unlockButton.setOnClickListener(View -> {
-
-                                    Log.d("DEBUG" ,"Intent clicked starting new intent" + level);
-                                    setButtonUnlockedLevel(level);
-                                    Log.d("DEBUG" ,"setButtonUnlockedLevel triggered");
-
-                                });
-                                break;
-                            case 2:
-
-                                unlockButton.setOnClickListener(View -> {
-                                    Log.d("DEBUG" ,"Current Level clicked" + level);
-                                    Log.d("DEBUG" ,"Star from database" + finalStarTotal + "Star Required " + starRequired);
-                                    if (finalStarTotal >= starRequired) {
-                                        finalStarTotal -= starRequired;
-                                    }
-                                    startUnlockButton(level);
-                                    Log.d("DEBUG" ,"Intent clicked starting new intent" + level);
-                                    Log.d("DEBUG" ,"stars after deducted" + finalStarTotal);
-
-
-                                    starLoadedCallback.onStarTotalUpdated(finalStarTotal);
-
-                                });
-                                break;
-                            default:
-                                unlockButton.setOnClickListener(View -> {
-                                    startUnlockButton(level);
-                                });
-                        }
-                    }
-
-                    @Override
-                    public void onStarTotalUpdated(int updatedStarTotal) {
-                        saveStarsToDatabase(finalStarTotal, application);
-
-                    }
-                });
-        } return convertView;
+                }
+            });
+        }
+        return convertView;
     }
-/*
-    public void setLevelList(List<Level> levelList) {
-        this.levelList = levelList;
-    }*/
+
     private void setButtonUnlockedLevel(Level level) {
         startUnlockButton(level);
         unlockButton.setVisibility(View.GONE);
@@ -220,53 +245,48 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
 
     public void getStarFromDatabase(OnStarTotalLoaded starLoadedCallback) {
 
-        new Thread(() -> {
-
+        new Thread(( ) -> {
 
             AppDatabase db = AppDatabase.getInstance(getContext());
             GameStateDao gameStateDao = db.gameStateDao();
 
-             starTotal = gameStateDao.getStarCount();
+            starTotal = gameStateDao.getStarCount();
 
-             starLoadedCallback.onStarTotalLoaded(starTotal);
-
-
+            starLoadedCallback.onStarTotalLoaded(starTotal);
 
         }).start();
     }
 
-
-
     private void startUnlockButton(Level level) {
 
-
-            Intent intent = null;
-            try {
-                intent = getActivityName(level.getLevel());
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-                intent.putExtra("LANGUAGE_SELECTED", language);
-                intent.putExtra("STAR_REWARD", starReward);
-        intent.putExtra("CURRENT_LEVEL", currentLevel);
- getContext().startActivity(intent);
-                lockButton.setVisibility(View.GONE);
-                unlockButton.setVisibility(View.GONE);
-                startButton.setVisibility(View.GONE);
+        Intent intent = null;
+        try {
+            intent = getActivityName(level.getLevel());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        intent.putExtra("LANGUAGE_SELECTED" ,language);
+        intent.putExtra("STAR_REWARD" ,starReward);
+        intent.putExtra("CURRENT_LEVEL" ,currentLevel);
+        intent.putExtra("UNLOCK_VALUE" ,levelUnlocked);
+        getContext().startActivity(intent);
+        lockButton.setVisibility(View.GONE);
+        unlockButton.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
 
         Log.d("DEBUG" ,"LANGUAGE SELECTED" + language);
-                };
+    }
 
 
     private Intent getActivityName(int level) throws ClassNotFoundException {
-        Intent intent   = null;
+        Intent intent = null;
 
         switch (level) {
             case 1:
-                return intent = new Intent(getContext(), Level1Activity.class);
+                return intent = new Intent(getContext() ,Level1Activity.class);
 
             case 2:
-                return intent = new Intent(getContext(), Level2Activity.class);
+                return intent = new Intent(getContext() ,Level2Activity.class);
                /* return Level2Activity.class;
             case 3:
                 return Level1Activity.class;
@@ -274,11 +294,11 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
                 return Level1Activity.class;
             case 5:
                 return Level1Activity.class;*/
-            default: return intent = new Intent(getContext(), MainActivity.class);
+            default:
+                return intent = new Intent(getContext() ,MainActivity.class);
 
         }
     }
-
 
 
 }

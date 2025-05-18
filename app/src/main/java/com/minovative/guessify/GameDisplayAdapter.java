@@ -1,5 +1,7 @@
 package com.minovative.guessify;
 
+import static android.content.Intent.getIntent;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,6 +73,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
 
         Log.d("DEBUG","first guessing word " + currentWord.getWord());
         startGame(holder);
+
 
 
     }

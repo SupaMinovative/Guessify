@@ -21,6 +21,6 @@ public interface LevelDao {
     @Query("SELECT * FROM level WHERE level =:level AND language =:language")
     Level getLevel(int level, String language);
 
-    @Query("SELECT * FROM level WHERE language =:language")
+    @Query("SELECT * FROM level WHERE language =:language ORDER BY level ASC")
     List<Level> getLevelByLanguage(String language);
 }

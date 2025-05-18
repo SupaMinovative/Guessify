@@ -2,6 +2,8 @@ package com.minovative.guessify;
 
 
 
+import static com.minovative.guessify.SaveAndLoadDataHelper.saveLevelStateToDatabase;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Level1Activity extends AppCompatActivity implements GameDisplayAdapter.OnLastWordCompletionListener{
+public class Level1Activity extends AppCompatActivity implements GameDisplayAdapter.OnLastWordCompletionListener {
 
 
     private List<Word> wordList = new ArrayList<>();
@@ -35,6 +37,7 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
     private int starEarned;
     private int starReward;
     private int currentLevel;
+    private boolean isLevelUnlocked;
 
 
     @Override
@@ -56,6 +59,7 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
         language = getIntent().getStringExtra("LANGUAGE_SELECTED");
         starReward = getIntent().getIntExtra("STAR_REWARD", 0);
         currentLevel = getIntent().getIntExtra("CURRENT_LEVEL", 0);
+        isLevelUnlocked = getIntent().getBooleanExtra("UNLOCK_VALUE", false);
         recyclerView.setAdapter(adapter);
         loadJsonAndInsert();
 
@@ -127,8 +131,8 @@ private void shuffleWordList(List<Word> gameWordList) {
     @Override
     public void onEndLevelUpdate() {
 
-
-
     }
+
+
 }
 

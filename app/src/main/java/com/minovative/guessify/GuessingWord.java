@@ -14,8 +14,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -24,6 +25,7 @@ import java.util.Set;
 public class GuessingWord {
     private String originalWord;
     Set<Integer> missingIndexes;
+    private StringBuilder maskedWord;
 
 
     public GuessingWord(String originalWord) {
@@ -56,7 +58,7 @@ public class GuessingWord {
             missingIndexes.add(index);
         }
 
-        StringBuilder maskedWord = new StringBuilder();
+          maskedWord = new StringBuilder();
 
         for (int i = 0; i < originalWord.length(); i++) {
 
@@ -70,10 +72,14 @@ public class GuessingWord {
         } return maskedWord.toString();
     }
 
+
+
     public boolean isCorrect(List<String> userInput) {
 
         StringBuilder userGuess = new StringBuilder();
         int inputIndex = 0;
+
+        Log.d ("DEBUG", "ORIGINAL WORD FROM CORRECT CHECK " + originalWord);
 
         for (int i = 0; i < originalWord.length(); i++) {
 
@@ -84,7 +90,7 @@ public class GuessingWord {
 
                 userGuess.append(originalWord.charAt(i));
             }
-        } return userGuess.toString().equals(originalWord);
+        } return userGuess.toString().toLowerCase().equals(originalWord);
     }
 
     public void showGuessUI(GuessingWord word, Word currentWord, Context context,
@@ -94,11 +100,9 @@ public class GuessingWord {
 
 
         String masked = word.maskedOriginalWord();
+        List<View> viewList = new ArrayList<>();
 
         hintTextView.setText("💡 " + currentWord.getHint());
-        Log.d("DEBUG", "Masked version: " + word.maskedOriginalWord());
-
-        Log.d("DEBUG", "original version: " + word);
         for (int i = 0; i < masked.length(); i++) {
             char c = masked.charAt(i);
             if (c == '_') {
@@ -110,6 +114,8 @@ public class GuessingWord {
                 editText.setPadding(5,5,5,5);
                 editText.setTextSize(40);
                 editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                editText.setTag(i);
+                viewList.add(editText);
                 editTextList.add(editText);
                 wordContainer.addView(editText);
 
@@ -156,6 +162,8 @@ public class GuessingWord {
                 textView.setText(String.valueOf(c));
                 textView.setPadding(5,5,5,5);
                 textView.setTextSize(40);
+                textView.setTag(i);
+                viewList.add(textView);
                 wordContainer.addView(textView);
             }
         }
@@ -166,7 +174,6 @@ public class GuessingWord {
                 userInput.add(et.getText().toString());
             }
 
-            Log.d("MaskedWord", "Masked version: " + word.maskedOriginalWord());
             boolean correct = word.isCorrect(userInput);
 
 
@@ -180,7 +187,66 @@ public class GuessingWord {
 
         });
     }
+    public void getWordHint(int numToReveal, String word, Context context,
+                            LinearLayout wordContainer, List<EditText> editTextList) {
 
+
+        List<Integer> missingList = new ArrayList<>(missingIndexes);
+        Random random = new Random();
+
+        int revealCount = Math.min(numToReveal, missingIndexes.size());
+
+        int ranIndex = random.nextInt(missingList.size());
+        int indexToReveal = missingList.get(ranIndex);
+        Log.d ("DEBUG", "ORIGINAL WORD:" + word);
+        Log.d ("DEBUG", "INDEX TO REVEAL " + indexToReveal + "Char at original " + word.charAt(indexToReveal));
+
+        for (int i = 0; i < revealCount; i++) {
+
+            if (maskedWord.charAt(indexToReveal) == '_') {
+
+                Log.d ("DEBUG", "Index to reveal from set Char " + indexToReveal);
+                maskedWord.setCharAt(indexToReveal, word.charAt(indexToReveal));
+                revealHintUI(context, wordContainer, word, editTextList, indexToReveal);
+                missingIndexes.remove(indexToReveal);
+                Log.d ("DEBUG", "Reveal hint is being triggered");
+            }
+
+            missingList.remove(ranIndex);
+        }
+    }
+    public void revealHintUI(Context context, LinearLayout wordContainer, String word,
+                             List<EditText> editTextList, int indexToReveal) {
+
+
+        Log.d ("DEBUG", "Word from reveal hint UI " + word);
+        TextView revealedLetter = new TextView(context);
+
+        revealedLetter.setText(String.valueOf(word.charAt(indexToReveal)));
+        revealedLetter.setPadding(5,5,5,5);
+        revealedLetter.setTextSize(40);
+        revealedLetter.setTextColor(ContextCompat.getColor(context, R.color.primaryBlue));
+
+        revealedLetter.setGravity(Gravity.CENTER);
+        int editTextIndex = -1;
+        for (int i = 0; i < indexToReveal; i++) {
+            EditText et = editTextList.get(i);
+
+            if(wordContainer.indexOfChild(et) == indexToReveal) {
+                editTextIndex = i;
+                break;
+            }
+        }
+        if (editTextIndex != -1) {
+
+            EditText et =editTextList.get(editTextIndex);
+            wordContainer.removeView(et);
+            editTextList.remove(editTextIndex);
+        }
+
+        wordContainer.addView(revealedLetter, indexToReveal);
+
+    }
     public static String generatedHeart(int count) {
         StringBuilder hearts = new StringBuilder();
 

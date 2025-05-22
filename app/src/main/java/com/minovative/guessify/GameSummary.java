@@ -51,7 +51,7 @@ public class GameSummary extends AppCompatActivity {
                 new android.os.Handler().postDelayed(() -> {
                     starRewardText.setText("+" + finalI);
 
-                },i * 500);
+                },i * 200);
             }
         } ,1000);
 

@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#C80000</color>
     <color name="green">#00C800</color>
+
+    <color name="primaryBlue">#0277bd</color>
 </resources>

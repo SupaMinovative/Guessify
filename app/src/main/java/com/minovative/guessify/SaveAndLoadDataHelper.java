@@ -42,7 +42,7 @@ public class SaveAndLoadDataHelper {
 
             LevelDao levelDao = db.levelDao();
 
-            List<Level> currentLevelState = levelDao.getLevelByLanguage(language);
+            List<Level> currentLevelState = levelDao.getLevelByLanguageSync(language);
             if (callback != null) {
                 new Handler(Looper.getMainLooper()).post(() -> callback.onFetched(currentLevelState));
             }

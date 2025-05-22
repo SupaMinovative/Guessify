@@ -2,7 +2,9 @@ package com.minovative.guessify;
 
 import static com.minovative.guessify.SaveAndLoadDataHelper.saveLevelStateToDatabase;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -21,6 +24,8 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,20 +36,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
-public class MainActivity extends AppCompatActivity implements GridViewAdapter.OnUnlockButtonClickedCallback {
+public class MainActivity extends AppCompatActivity {
     private GridView gridView;
     private TextView star;
     private SharedPreferences prefs;
     private String currentLanguage;
     Toolbar toolbar;
-    private AppDatabase db;
     GridViewAdapter adapter;
    // LevelViewModel viewModel;
     private Level level;
 
 
     List<Level> levelList = new ArrayList<>();
+    private AppDatabase db;
+    private LevelDao levelDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +67,22 @@ public class MainActivity extends AppCompatActivity implements GridViewAdapter.O
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-/*
-        viewModel = new ViewModelProvider(this).get(LevelViewModel.class);
+        db = AppDatabase.getInstance(this);
+        levelDao = db.levelDao();
 
-        viewModel.getLevelList().observe(this, levels -> {
-            adapter.clear();
-            adapter.addAll(levels);
-            adapter.notifyDataSetChanged();
-        });*/
+        prefs = getSharedPreferences("LangPrefs" ,MODE_PRIVATE);
+        currentLanguage = prefs.getString("language" ,"en");
+
+        LevelViewModel levelViewModel = new ViewModelProvider(this,
+                new LevelViewModelFactory(getApplication(), levelDao, currentLanguage))
+                .get(LevelViewModel.class);
+
+        levelViewModel.getLevelByLanguage(currentLanguage).observe(this, existingLevels -> {
+
+            if (existingLevels != null) {
+                adapter.updateLevels(existingLevels);
+            }
+        });
 
         new Thread(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
@@ -77,9 +93,8 @@ public class MainActivity extends AppCompatActivity implements GridViewAdapter.O
                 star.setText(starCount + " ⭐");
             });
         }).start();
-
-setAdapter();
         loadJsonAndInsert();
+        setAdapter();
 
     }
 
@@ -91,7 +106,7 @@ setAdapter();
 
         prefs = getSharedPreferences("LangPrefs" ,MODE_PRIVATE);
         currentLanguage = prefs.getString("language" ,"en");
-        adapter = new GridViewAdapter(this ,levelList ,currentLanguage, this);
+        adapter = new GridViewAdapter(this ,new ArrayList<>() ,currentLanguage, this);
         gridView.setAdapter(adapter);
     }
 /*
@@ -113,7 +128,7 @@ setAdapter();
     }*/
 private void loadJsonAndInsert() {
 
-    new Thread(() -> {
+    new Thread(( ) -> {
 
         String jsonString = null;
 
@@ -124,14 +139,35 @@ private void loadJsonAndInsert() {
         }
 
         Gson gson = new Gson();
-        Type levelListType = new TypeToken<List<Level>>(){
+        Type levelListType = new TypeToken<List<Level>>() {
 
         }.getType();
-        List<Level> loadedLevel = gson.fromJson(jsonString, levelListType);
+        List<Level> loadedLevel = gson.fromJson(jsonString ,levelListType);
 
-        db = AppDatabase.getInstance(this);
-        LevelDao levelDao = db.levelDao();
-        List<Level> allLevels = levelDao.getLevelByLanguage(currentLanguage);
+        List<Level> allLevels = levelDao.getLevelByLanguageSync(currentLanguage);
+
+        List<Level> levelsToInsert = new ArrayList<>();
+        for (Level levelsFromJson : loadedLevel) {
+
+            boolean exists = false;
+
+            for (Level level : allLevels) {
+                if (level.getLevel() == levelsFromJson.getLevel()) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                levelsToInsert.add(levelsFromJson);
+            }
+        }
+        if (!levelsToInsert.isEmpty()) {
+            levelDao.insertAllLevelState(levelsToInsert);
+        }
+
+    }).start();
+}
+        /*
         List<Level> levelsToInsert = new ArrayList<>();
 
         for (Level level : loadedLevel) {
@@ -154,29 +190,15 @@ private void loadJsonAndInsert() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Collections.sort(levelList, Comparator.comparingInt(Level::getLevel));
         }
-        /*
-        LevelViewModel levelViewModel = new ViewModelProvider(this,
-                new LevelViewModel(getApplication(),levelDao,currentLanguage)).get(LevelViewModel.class);
-        levelViewModel.getLevelByLanguage(currentLanguage).observe(this, levels -> {
-*/
-
-            runOnUiThread(() -> {
-                adapter.notifyDataSetChanged();
-
-                });
-        }).start();
+        */
 
 
 
-}
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main ,menu);
-
-        prefs = getSharedPreferences("LangPrefs" ,MODE_PRIVATE);
-        currentLanguage = prefs.getString("language" ,"en");
 
 
         if ("en".equals(currentLanguage)) {
@@ -247,18 +269,19 @@ private void loadJsonAndInsert() {
         view.startAnimation(shake);
     };
 
+
+
+    /*
     @Override
     public void onUnlockedButton(int currentLevel) {
-            Log.d("DEBUG", "Unlock Button listener is being called from Level 1 and saving data to database.");
+            Log.d("DEBUG", "Main : Unlock Button listener is being called from " + currentLevel + " and saving data to database.");
             saveLevelStateToDatabase(this,currentLevel,currentLanguage);
 
-    }
+    } */
 
     @Override protected void onResume() {
 
         saveLanguage(currentLanguage);
-        loadJsonAndInsert();
-        adapter.notifyDataSetChanged();
         super.onResume();
     }
     @Override

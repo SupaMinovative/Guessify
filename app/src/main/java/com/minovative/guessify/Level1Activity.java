@@ -1,9 +1,5 @@
 package com.minovative.guessify;
 
-
-
-import static com.minovative.guessify.SaveAndLoadDataHelper.saveLevelStateToDatabase;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,22 +19,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class Level1Activity extends AppCompatActivity implements GameDisplayAdapter.OnLastWordCompletionListener {
-
-
     private List<Word> wordList = new ArrayList<>();
     private AppDatabase db;
-
     private  GameDisplayAdapter adapter;
-
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private int level;
-
-    String language;
+    private String language;
     private int starEarned;
     private int starReward;
     private int currentLevel;
     private boolean isLevelUnlocked;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +39,7 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new GameDisplayAdapter(wordList,recyclerView,this, this, currentLevel);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) {
+
             @Override
             public boolean canScrollHorizontally() {
                     return false;
@@ -61,9 +52,8 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
         currentLevel = getIntent().getIntExtra("CURRENT_LEVEL", 0);
         isLevelUnlocked = getIntent().getBooleanExtra("UNLOCK_VALUE", false);
         recyclerView.setAdapter(adapter);
+
         loadJsonAndInsert();
-
-
     };
 
     private void loadJsonAndInsert() {
@@ -91,17 +81,18 @@ public class Level1Activity extends AppCompatActivity implements GameDisplayAdap
             List<Word> gameWordList = wordDao.getWordsByLevel(level ,language);
             shuffleWordList(gameWordList);
 
-
-
         }).start();
     }
+
 private void shuffleWordList(List<Word> gameWordList) {
 
     Collections.shuffle(gameWordList);
     int maxIndex = Math.min(4, gameWordList.size());
     wordList.clear();
     wordList.addAll(gameWordList.subList(0, maxIndex));
+
     runOnUiThread(() -> {
+
         adapter.notifyDataSetChanged();
     });
 }
@@ -109,20 +100,15 @@ private void shuffleWordList(List<Word> gameWordList) {
     @Override
     public void onLastWordReached(int roundStarCount, int roundLife) {
 
-        Log.d ("DEBUG", "Callback triggered, starting new intent");
         Intent intent = new Intent(this, GameSummary.class);
         intent.putExtra("STAR_EARNED", roundStarCount);
         intent.putExtra("LIFE_SUMMARY", roundLife);
         intent.putExtra("STAR_REWARD", starReward);
         startActivity(intent);
-
     }
-
     @Override
     public void onEndLevelUpdate() {
 
     }
-
-
 }
 

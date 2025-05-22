@@ -4,7 +4,6 @@ package com.minovative.guessify;
 import static com.minovative.guessify.MainActivity.shakeButton;
 import static com.minovative.guessify.SaveAndLoadDataHelper.saveStarsToDatabase;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -14,7 +13,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class GameSummary extends AppCompatActivity {
-
     private TextView stars;
     private TextView starsEarned;
     private TextView starRewardText;
@@ -51,7 +49,7 @@ public class GameSummary extends AppCompatActivity {
                 new android.os.Handler().postDelayed(() -> {
                     starRewardText.setText("+" + finalI);
 
-                },i * 200);
+                },i * 150);
             }
         } ,1000);
 
@@ -75,16 +73,18 @@ public class GameSummary extends AppCompatActivity {
             Intent i = new Intent(GameSummary.this ,MainActivity.class);
             startActivity(i);
         });
-
     }
 
     public static String generatedStar(int count) {
+
         StringBuilder stars = new StringBuilder();
 
         for (int i = 0; i < count; i++) {
             stars.append("⭐");
         }
+
         if (count < 3) {
+
             for (int i = count; i < 3; i++) {
                 stars.append("✰");
             }

@@ -17,6 +17,7 @@ public class LevelViewModel extends AndroidViewModel {
         String language;
 
     public LevelViewModel(@NonNull Application application ,LevelDao levelDao, String language) {
+
         super(application);
         this.levelDao = levelDao;
         this.language = language;
@@ -28,12 +29,15 @@ public class LevelViewModel extends AndroidViewModel {
     }
 
     public void updateLevel(Level level) {
+
         Executors.newSingleThreadExecutor().execute(()-> {
+
             levelDao.insertLevelState(level);
         });
     }
 
     public LiveData<List<Level>> getLevelByLanguage(String language) {
+
         return levelDao.getLevelByLanguage(language);
     }
 }

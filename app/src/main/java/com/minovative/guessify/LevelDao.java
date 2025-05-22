@@ -1,10 +1,7 @@
 package com.minovative.guessify;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -25,8 +22,8 @@ public interface LevelDao {
     @Query("SELECT * FROM level WHERE language =:language ORDER by level ASC")
     LiveData<List<Level>> getLevelByLanguage(String language);
 
-@Query("SELECT * FROM level WHERE language =:language")
-List<Level> getLevelByLanguageSync(String language);
+    @Query("SELECT * FROM level WHERE language =:language")
+    List<Level> getLevelByLanguageSync(String language);
 
     @Query("DELETE FROM level")
     void deleteAll();

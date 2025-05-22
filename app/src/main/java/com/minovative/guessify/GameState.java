@@ -2,7 +2,6 @@ package com.minovative.guessify;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "game_state")
@@ -17,7 +16,6 @@ private int helpItem = 3;
     public int getStarCount() {
         return starCount;
     }
-
     public void setStarCount(int starCount) {
         this.starCount = starCount;
     }

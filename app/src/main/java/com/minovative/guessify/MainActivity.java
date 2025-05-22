@@ -1,30 +1,22 @@
 package com.minovative.guessify;
 
-import static com.minovative.guessify.SaveAndLoadDataHelper.saveLevelStateToDatabase;
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
@@ -33,29 +25,25 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private GridView gridView;
     private TextView star;
     private SharedPreferences prefs;
     private String currentLanguage;
-    Toolbar toolbar;
-    GridViewAdapter adapter;
+    private Toolbar toolbar;
+    private GridViewAdapter adapter;
    // LevelViewModel viewModel;
     private Level level;
-
-
-    List<Level> levelList = new ArrayList<>();
+    private List<Level> levelList = new ArrayList<>();
     private AppDatabase db;
     private LevelDao levelDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -63,10 +51,14 @@ public class MainActivity extends AppCompatActivity {
         star = findViewById(R.id.starMain);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+
+        Objects.requireNonNull (getSupportActionBar ()).setTitle("");
+
         if (getSupportActionBar() != null) {
+
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+
         db = AppDatabase.getInstance(this);
         levelDao = db.levelDao();
 
@@ -80,25 +72,26 @@ public class MainActivity extends AppCompatActivity {
         levelViewModel.getLevelByLanguage(currentLanguage).observe(this, existingLevels -> {
 
             if (existingLevels != null) {
+
                 adapter.updateLevels(existingLevels);
             }
         });
 
         new Thread(() -> {
+
             AppDatabase db = AppDatabase.getInstance(this);
             GameStateDao gameStateDao = db.gameStateDao();
             int starCount = gameStateDao.getStarCount();
 
             runOnUiThread(() -> {
+
                 star.setText(starCount + " ⭐");
             });
         }).start();
+
         loadJsonAndInsert();
         setAdapter();
-
     }
-
-
 
     public void setAdapter() {
         gridView = findViewById(R.id.gridView);
@@ -139,67 +132,39 @@ private void loadJsonAndInsert() {
         }
 
         Gson gson = new Gson();
-        Type levelListType = new TypeToken<List<Level>>() {
+        Type levelListType = new TypeToken<List<Level>>() { }.getType();
 
-        }.getType();
         List<Level> loadedLevel = gson.fromJson(jsonString ,levelListType);
-
         List<Level> allLevels = levelDao.getLevelByLanguageSync(currentLanguage);
-
         List<Level> levelsToInsert = new ArrayList<>();
+
         for (Level levelsFromJson : loadedLevel) {
 
             boolean exists = false;
 
             for (Level level : allLevels) {
+
                 if (level.getLevel() == levelsFromJson.getLevel()) {
+
                     exists = true;
                     break;
                 }
             }
             if (!exists) {
+
                 levelsToInsert.add(levelsFromJson);
             }
         }
         if (!levelsToInsert.isEmpty()) {
+
             levelDao.insertAllLevelState(levelsToInsert);
         }
-
     }).start();
 }
-        /*
-        List<Level> levelsToInsert = new ArrayList<>();
-
-        for (Level level : loadedLevel) {
-            boolean levelAlreadyExists = false;
-            for (Level existingLevel : allLevels) {
-                if (existingLevel.getLevel() == level.getLevel()) {
-                    levelAlreadyExists = true;
-                    break;
-                }
-            }
-            if (!levelAlreadyExists) {
-                levelsToInsert.add(level);
-            }
-        }
-        if (!levelsToInsert.isEmpty()) {
-            levelDao.insertAllLevelState(levelsToInsert);
-        }
-          levelList.clear();
-        levelList.addAll(levelDao.getLevelByLanguage(currentLanguage));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Collections.sort(levelList, Comparator.comparingInt(Level::getLevel));
-        }
-        */
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main ,menu);
-
 
         if ("en".equals(currentLanguage)) {
             menu.findItem(R.id.language_bar).setIcon(R.drawable.ic_en);
@@ -237,20 +202,16 @@ private void loadJsonAndInsert() {
                 langItem.setIcon(R.drawable.ic_en);
                 currentLanguage = "en";
 
-                Toast.makeText(this, "Language selected " + prefs.getString("language", "en"), Toast.LENGTH_LONG).show();
             } else if (item.getItemId() == R.id.item_german) {
                 prefs.edit().putString("language" ,"de").apply();
-                Toast.makeText(this, "Language selected " + prefs.getString("language", "de"), Toast.LENGTH_LONG).show();
                 langItem.setIcon(R.drawable.ic_de);
                 currentLanguage = "de";
             }
             recreate();
             return true;
         });
-
         popup.show();
     }
-
 
     public void saveLanguage(String language) {
         prefs = getSharedPreferences("LangPrefs" ,Context.MODE_PRIVATE);
@@ -258,7 +219,6 @@ private void loadJsonAndInsert() {
         editor.putString("language", language);
         editor.apply();
     }
-
 
     public static void shakeButton(View view) {
         Animation shake = new TranslateAnimation(0,0,0,5);
@@ -269,35 +229,33 @@ private void loadJsonAndInsert() {
         view.startAnimation(shake);
     };
 
+    public static void moveGameOver(ImageView view) {
+        Animation move = new TranslateAnimation(0,0,400,-120);
+        move.setDuration(10000);
 
-
-    /*
-    @Override
-    public void onUnlockedButton(int currentLevel) {
-            Log.d("DEBUG", "Main : Unlock Button listener is being called from " + currentLevel + " and saving data to database.");
-            saveLevelStateToDatabase(this,currentLevel,currentLanguage);
-
-    } */
+        move.setInterpolator(new CycleInterpolator(1));
+        move.setRepeatMode(Animation.RESTART);
+        move.setRepeatCount(Animation.INFINITE);
+        view.startAnimation(move);
+    }
 
     @Override protected void onResume() {
 
         saveLanguage(currentLanguage);
         super.onResume();
     }
+
     @Override
     protected void onPause() {
+
         super.onPause();
-
         saveLanguage(currentLanguage);
-
     }
-
 
     @Override
     protected void onDestroy() {
+
         saveLanguage(currentLanguage);
         super.onDestroy();
-
     }
-
 }

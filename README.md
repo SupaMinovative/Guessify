@@ -43,7 +43,7 @@ Stars earned per level are saved in a local database and used to unlock new leve
 
 Tech	Description
 Java	Game core logic and UI development
-Android SDK	Native components and activities
+Android SDK	Native components like Activities, Fragments, and Intents
 LiveData	Observing state for UI reactivity
 Room DB	Persisting stars, hints, and unlocked levels
 TextWatchers	Intelligent input handling

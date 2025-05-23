@@ -1,5 +1,6 @@
 package com.minovative.guessify;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -22,6 +23,11 @@ public interface GameStateDao {
     void updateStarCount(int starCount);
 
     @Query("SELECT star FROM game_state WHERE id = 1")
-    int getStarCount();
+    LiveData<Integer> getStarCount();
 
+    @Query("SELECT item FROM game_state WHERE id = 1")
+    LiveData<Integer> getHelpItem();
+
+    @Query("DELETE FROM game_state")
+    void deleteAll();
 }

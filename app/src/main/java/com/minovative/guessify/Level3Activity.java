@@ -1,13 +1,14 @@
 package com.minovative.guessify;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,19 +26,22 @@ public class Level3Activity extends AppCompatActivity implements GameDisplayAdap
     private RecyclerView recyclerView;
     private int level;
     private String language;
-    private int starEarned;
+    private int starTotal;
     private int starReward;
     private int currentLevel;
-    private boolean isLevelUnlocked;
+    private int currentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_level1);
 
+        currentItem = getIntent().getIntExtra("HELP_ITEM",0);
+
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new GameDisplayAdapter(wordList,recyclerView,this, this, currentLevel);
+        adapter = new GameDisplayAdapter(wordList,recyclerView,this, this, currentLevel, currentItem);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) {
 
             @Override
@@ -48,14 +52,25 @@ public class Level3Activity extends AppCompatActivity implements GameDisplayAdap
 
         level = 3;
         language = getIntent().getStringExtra("LANGUAGE_SELECTED");
+        starTotal = getIntent().getIntExtra("STAR_TOTAL",0);
         starReward = getIntent().getIntExtra("STAR_REWARD", 0);
         currentLevel = getIntent().getIntExtra("CURRENT_LEVEL", 0);
-        isLevelUnlocked = getIntent().getBooleanExtra("UNLOCK_VALUE", false);
         recyclerView.setAdapter(adapter);
 
         loadJsonAndInsert();
     };
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Exist?")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    super.onBackPressed();
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
     private void loadJsonAndInsert() {
 
         new Thread(() -> {
@@ -84,10 +99,11 @@ public class Level3Activity extends AppCompatActivity implements GameDisplayAdap
         }).start();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void shuffleWordList(List<Word> gameWordList) {
 
         Collections.shuffle(gameWordList);
-        int maxIndex = Math.min(4, gameWordList.size());
+        int maxIndex = Math.min(10, gameWordList.size());
         wordList.clear();
         wordList.addAll(gameWordList.subList(0, maxIndex));
 
@@ -98,17 +114,16 @@ public class Level3Activity extends AppCompatActivity implements GameDisplayAdap
     }
 
     @Override
-    public void onLastWordReached(int roundStarCount, int roundLife) {
+    public void onLastWordReached(int roundStarCount, int roundLife, int helpItem) {
 
         Intent intent = new Intent(this, GameSummary.class);
+
+        intent.putExtra("STAR_TOTAL", starTotal);
         intent.putExtra("STAR_EARNED", roundStarCount);
         intent.putExtra("LIFE_SUMMARY", roundLife);
         intent.putExtra("STAR_REWARD", starReward);
+        intent.putExtra("HELP_ITEM_TOTAL", helpItem);
         startActivity(intent);
-    }
-    @Override
-    public void onEndLevelUpdate() {
-
     }
 }
 

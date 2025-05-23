@@ -22,11 +22,11 @@ public class LevelViewModelFactory implements ViewModelProvider.Factory {
     @Override
 
     public <T extends ViewModel> T create(@NonNull Class<T> modellClass) {
+
         if (modellClass.isAssignableFrom(LevelViewModel.class)) {
+
             return (T) new LevelViewModel(application ,levelDao ,language);
         }
             throw new IllegalArgumentException("Unknown ViewModel Class");
-
     }
-
 }

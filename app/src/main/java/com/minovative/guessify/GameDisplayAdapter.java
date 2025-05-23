@@ -1,11 +1,10 @@
 package com.minovative.guessify;
 
-
-import static com.minovative.guessify.MainActivity.moveGameOver;
+import static com.minovative.guessify.MethodHelper.moveGameOver;
+import static com.minovative.guessify.MethodHelper.showDialog;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +29,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
     private RecyclerView recyclerView;
     private Context context;
     private GameState gameState = new GameState();
-    private int starCount = gameState.getStarCount();
+    private int starCount;
     private int lifeCount = 3;
     private int helpItem = gameState.getHelpItem();
     private int wordCounter = 0;
@@ -39,23 +37,24 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
     private OnLastWordCompletionListener listener;
     private int currentLevel;
     private boolean gameStarted = false;
-    private AlertDialog dialog;
     private List<EditText> editTextList = new ArrayList<>();
+    private int itemCount;
 
-    public GameDisplayAdapter(List<Word> wordList,RecyclerView recyclerView,Context context,OnLastWordCompletionListener listener,int currentLevel) {
+    public GameDisplayAdapter(List<Word> wordList,RecyclerView recyclerView,Context context
+            ,OnLastWordCompletionListener listener,int currentLevel, int itemCount) {
         this.wordList = wordList;
         this.recyclerView = recyclerView;
         this.context = context;
         this.listener = listener;
         this.currentLevel = currentLevel;
+        this.itemCount = itemCount;
+        helpItem = itemCount;
     }
 
     // Interface for summary scores
     public interface OnLastWordCompletionListener {
-        void onLastWordReached(int roundStarCount,int roundLife);
+        void onLastWordReached(int roundStarCount,int roundLife, int helpItem);
 
-        // update level state play as played
-        void onEndLevelUpdate( );
     }
 
     @NonNull
@@ -73,7 +72,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
         holder.setIsRecyclable(false);
 
         holder.starDisplay.setText(starCount + " ⭐");
-        holder.lifeDisplay.setText(GuessingWord.generatedHeart(lifeCount));
+        holder.lifeDisplay.setText(GuessingWord.generateHeart(lifeCount));
         holder.helpItemText.setText(helpItem + " 🧩");
 
         holder.backButton.setOnClickListener(view -> {
@@ -82,23 +81,6 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
             context.startActivity(i);
         });
 
-        dialog = new AlertDialog.Builder(context)
-                .setTitle("")
-                .setMessage("You don't have any 🧩")
-                .create();
-
-        dialog.setOnShowListener(d -> {
-
-            TextView messageView = dialog.findViewById(android.R.id.message);
-
-            if (messageView != null) {
-
-                messageView.setGravity(Gravity.CENTER);
-                messageView.setWidth(200);
-                messageView.setTextSize(22);
-            }
-            new android.os.Handler().postDelayed(dialog::dismiss,1500);
-        });
 
         if (position == 0 && wordCounter == 0) {
 
@@ -117,7 +99,8 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
         currentWord = wordList.get(wordCounter);
         GuessingWord word = new GuessingWord(currentWord.getWord());
 
-        word.showGuessUI(word,currentWord,context,editTextList,holder.hintTextView,holder.wordContainer,holder.checkButton,new GuessingWord.AnswerCallBack() {
+        word.showGuessUI(word,currentWord,context,editTextList,holder.hintTextView,holder.wordContainer
+                ,holder.checkButton,new GuessingWord.AnswerCallBack() {
 
             @Override
             public void onCorrect( ) {
@@ -135,7 +118,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
 
             if (helpItem == 0) {
 
-                dialog.show();
+                showDialog(context, "You don't have any 🧩!");
                 return;
             }
 
@@ -174,7 +157,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
 
                     if (helpItem == 0) {
 
-                        dialog.show();
+                        showDialog(context, "You don't have any 🧩!");
                         return;
                     }
 
@@ -212,7 +195,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
     private void onCorrectCheck(GameDisplayViewHolder holder) {
 
         List<String> randomCorrect = new ArrayList<>();
-        Collections.addAll(randomCorrect,"Well done!","Great! 👍","Nice!","Awesome!");
+        Collections.addAll(randomCorrect,"Well done! 😎","Great! 👍","Nice! 🔥","Awesome! ✨");
         Collections.shuffle(randomCorrect);
 
         holder.result.setTextColor(ContextCompat.getColor(context,R.color.green));
@@ -230,13 +213,13 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
     private void onIncorrectCheck(GameDisplayViewHolder holder) {
 
         List<String> randomIncorrect = new ArrayList<>();
-        Collections.addAll(randomIncorrect,"Too bad!","Try again!","Missed!","Not quite!");
+        Collections.addAll(randomIncorrect,"Too bad! 🫠","Try again! 😌","Missed! 😏","Not quite! 😋");
         Collections.shuffle(randomIncorrect);
 
         if (lifeCount > 1) {
 
             lifeCount--;
-            holder.lifeDisplay.setText(GuessingWord.generatedHeart(lifeCount));
+            holder.lifeDisplay.setText(GuessingWord.generateHeart(lifeCount));
             holder.result.setTextColor(ContextCompat.getColor(context,R.color.red));
             holder.result.setText(randomIncorrect.get(0));
             wordCounter++;
@@ -247,7 +230,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
         } else if (lifeCount == 1) {
 
             lifeCount--;
-            holder.lifeDisplay.setText(GuessingWord.generatedHeart(lifeCount));
+            holder.lifeDisplay.setText(GuessingWord.generateHeart(lifeCount));
             holder.result.setTextColor(ContextCompat.getColor(context,R.color.red));
             holder.result.setText(randomIncorrect.get(0));
             wordCounter++;
@@ -279,7 +262,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
                 wordCounter = 0;
                 holder.starDisplay.setText(starCount + " ⭐");
                 holder.helpItemText.setText(helpItem + " 🧩");
-                holder.lifeDisplay.setText(GuessingWord.generatedHeart(lifeCount));
+                holder.lifeDisplay.setText(GuessingWord.generateHeart(lifeCount));
                 setEmptyText(holder.result);
                 holder.result.setTextSize(25);
                 holder.restartButton.setVisibility(View.GONE);
@@ -296,8 +279,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
     private void updateStarOnGameEnd( ) {
         if (wordCounter == wordList.size()) {
             if (listener != null) {
-                listener.onLastWordReached(starCount,lifeCount);
-                listener.onEndLevelUpdate();
+                listener.onLastWordReached(starCount,lifeCount, helpItem);
             }
         }
     }

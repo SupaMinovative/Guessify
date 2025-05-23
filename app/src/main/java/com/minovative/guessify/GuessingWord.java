@@ -5,7 +5,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.widget.Button;
@@ -49,7 +48,7 @@ public class GuessingWord {
         void onIncorrect( );
     }
 
-    public String maskedOriginalWord( ) {
+    public String generateMaskedWord( ) {
 
         missingIndexes.clear();
 
@@ -57,7 +56,7 @@ public class GuessingWord {
         int numMissing = originalWord.length() / 2;
         Random random = new Random();
 
-        while(missingIndexes.size() < numMissing) {
+        while (missingIndexes.size() < numMissing) {
 
             int index = random.nextInt(originalWord.length());
             missingIndexes.add(index);
@@ -99,13 +98,12 @@ public class GuessingWord {
         return userGuess.toString().toLowerCase().equals(originalWord);
     }
 
-    public void showGuessUI(GuessingWord word,Word currentWord,Context context,
-                            List<EditText> editTextList,TextView hintTextView,
-                            LinearLayout wordContainer,Button check,AnswerCallBack callBack) {
+    public void showGuessUI(GuessingWord word, Word currentWord, Context context,
+                            List<EditText> editTextList, TextView hintTextView,
+                            LinearLayout wordContainer, Button check, AnswerCallBack callBack) {
 
-        String masked = word.maskedOriginalWord();
+        String masked = word.generateMaskedWord();
 
-        Log.d("DEBUG","Masked Word" + masked);
         hintTextView.setText("💡 " + currentWord.getHint());
 
         for (int i = 0; i < masked.length(); i++) {
@@ -162,7 +160,6 @@ public class GuessingWord {
 
                     }
                 });
-
             } else {
 
                 TextView textView = new TextView(context);
@@ -180,9 +177,10 @@ public class GuessingWord {
             Collections.sort(sortedIndexes);
 
             for (int index : sortedIndexes) {
+
                 EditText et = indexToEditTextMap.get(index);
-                assert et != null;
-                userInput.add(et.getText().toString());
+                if (et == null) throw new IllegalStateException();
+                userInput.add(et.getText().toString().toLowerCase());
             }
 
             boolean correct = word.isCorrect(userInput);
@@ -199,11 +197,12 @@ public class GuessingWord {
         });
     }
 
-    public boolean getWordHint(int numToReveal,String word,Context context,
+    public boolean getWordHint(int numToReveal, String word, Context context,
                                LinearLayout wordContainer) {
 
         List<Integer> missingList = new ArrayList<>(missingIndexes);
         Collections.shuffle(missingList);
+
         int revealCount = Math.min(numToReveal,missingList.size());
         boolean revealed = false;
 
@@ -227,7 +226,7 @@ public class GuessingWord {
         return revealed;
     }
 
-    public void revealHintUI(Context context,LinearLayout wordContainer,String word,int indexToReveal) {
+    public void revealHintUI(Context context, LinearLayout wordContainer, String word, int indexToReveal) {
 
         EditText et = indexToEditTextMap.get(indexToReveal);
         TextView revealedLetter = new TextView(context);
@@ -246,7 +245,7 @@ public class GuessingWord {
         wordContainer.addView(revealedLetter,indexToReveal);
     }
 
-    public static String generatedHeart(int count) {
+    public static String generateHeart(int count) {
         StringBuilder hearts = new StringBuilder();
 
         for (int i = 0; i < count; i++) {
@@ -255,7 +254,7 @@ public class GuessingWord {
         return hearts.toString();
     }
 
-    public void showNextWord(LinearLayout wordContainer,List<EditText> editTextList,TextView result) {
+    public void showNextWord(LinearLayout wordContainer, List<EditText> editTextList, TextView result) {
 
         wordContainer.removeAllViews();
         editTextList.clear();

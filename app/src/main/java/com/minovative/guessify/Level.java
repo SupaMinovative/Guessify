@@ -1,5 +1,6 @@
 package com.minovative.guessify;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
@@ -9,6 +10,7 @@ public class Level {
     @ColumnInfo(name ="level")
     private int level;
 
+    @NonNull
     @ColumnInfo(name = "language")
     private String language;
 
@@ -24,7 +26,7 @@ public class Level {
     private boolean isPlay;
 
 
-    public Level(int level,String difficulty,int starRequired,int starRewarded,boolean isUnlocked,String language, boolean isPlay) {
+    public Level(int level,String difficulty,int starRequired,int starRewarded,boolean isUnlocked,@NonNull String language,boolean isPlay) {
         this.level = level;
         this.difficulty = difficulty;
         this.starRequired = starRequired;
@@ -78,11 +80,12 @@ public class Level {
         isUnlocked = unlocked;
     }
 
+    @NonNull
     public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(@NonNull String language) {
         this.language = language;
     }
 

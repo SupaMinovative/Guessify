@@ -1,7 +1,8 @@
 package com.minovative.guessify;
 
-
-import static com.minovative.guessify.MainActivity.shakeButton;
+import static com.minovative.guessify.MethodHelper.generateStars;
+import static com.minovative.guessify.MethodHelper.shakeButton;
+import static com.minovative.guessify.SaveAndLoadDataHelper.saveHelpItemToDatabase;
 import static com.minovative.guessify.SaveAndLoadDataHelper.saveStarsToDatabase;
 
 import android.content.Intent;
@@ -17,6 +18,7 @@ public class GameSummary extends AppCompatActivity {
     private TextView starsEarned;
     private TextView starRewardText;
     private TextView bonusText;
+    private TextView itemBonusText;
     private Button nextButton;
 
     @Override
@@ -30,16 +32,20 @@ public class GameSummary extends AppCompatActivity {
         bonusText = findViewById(R.id.bonusText);
         nextButton = findViewById(R.id.nextButton);
         starRewardText = findViewById(R.id.starRewardText);
+        itemBonusText = findViewById(R.id.itemBonusText);
 
+        int starTotal = getIntent().getIntExtra("STAR_TOTAL" ,0);
         int starCount = getIntent().getIntExtra("STAR_EARNED" ,0);
         int lifeCount = getIntent().getIntExtra("LIFE_SUMMARY" ,0);
         int starReward = getIntent().getIntExtra("STAR_REWARD" ,0);
-        int totalStars = starCount+starReward+lifeCount;
+        int helpItemTotal = getIntent().getIntExtra("HELP_ITEM_TOTAL" ,0);
+        int helpItemReward = helpItemTotal + lifeCount;
+        int allStarsFromThisLevel = starTotal+starCount+starReward+lifeCount;
 
-        saveStarsToDatabase(totalStars, getApplication());
+        saveStarsToDatabase(allStarsFromThisLevel, getApplication());
+        saveHelpItemToDatabase(helpItemReward, getApplication());
 
-        stars.setText(generatedStar(lifeCount));
-
+        stars.setText(generateStars(lifeCount));
         starsEarned.setText("+ " + starCount);
 
         new android.os.Handler().postDelayed(() -> {
@@ -48,8 +54,7 @@ public class GameSummary extends AppCompatActivity {
                 int finalI = i;
                 new android.os.Handler().postDelayed(() -> {
                     starRewardText.setText("+" + finalI);
-
-                },i * 150);
+                },i * 125);
             }
         } ,1000);
 
@@ -59,7 +64,7 @@ public class GameSummary extends AppCompatActivity {
                 int finalI = i;
                 new android.os.Handler().postDelayed(() -> {
                     bonusText.setText("+" + finalI);
-
+                    itemBonusText.setText("+" + finalI);
                 },i * 500);
             }
         } ,1000);
@@ -68,27 +73,13 @@ public class GameSummary extends AppCompatActivity {
         shakeButton(starRewardText);
         shakeButton(bonusText);
         shakeButton(starRewardText);
+        shakeButton(itemBonusText);
 
         nextButton.setOnClickListener(view -> {
+
             Intent i = new Intent(GameSummary.this ,MainActivity.class);
             startActivity(i);
+            finish();
         });
-    }
-
-    public static String generatedStar(int count) {
-
-        StringBuilder stars = new StringBuilder();
-
-        for (int i = 0; i < count; i++) {
-            stars.append("⭐");
-        }
-
-        if (count < 3) {
-
-            for (int i = count; i < 3; i++) {
-                stars.append("✰");
-            }
-        }
-        return stars.toString();
     }
 }

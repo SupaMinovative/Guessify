@@ -1,9 +1,3 @@
 <resources>
     <string name="app_name">Guessify</string>
-    <string-array name="correct_feedback">
-        <item>Well done!</item>
-        <item>Great! 👍</item>
-        <item>Nice!</item>
-        <item>Awesome!</item>
-    </string-array>
 </resources>

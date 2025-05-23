@@ -3,6 +3,7 @@ package com.minovative.guessify;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
@@ -26,20 +28,20 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private GridView gridView;
     private TextView star;
+    private TextView item;
     private SharedPreferences prefs;
     private String currentLanguage;
     private Toolbar toolbar;
     private GridViewAdapter adapter;
-   // LevelViewModel viewModel;
-    private Level level;
-    private List<Level> levelList = new ArrayList<>();
     private AppDatabase db;
     private LevelDao levelDao;
+    private GameStateDao gameStateDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+
         star = findViewById(R.id.starMain);
+        item = findViewById(R.id.itemTextView);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -61,9 +65,32 @@ public class MainActivity extends AppCompatActivity {
 
         db = AppDatabase.getInstance(this);
         levelDao = db.levelDao();
+        gameStateDao = db.gameStateDao();
 
         prefs = getSharedPreferences("LangPrefs" ,MODE_PRIVATE);
         currentLanguage = prefs.getString("language" ,"en");
+
+        GameStateViewModel gameStateViewModel = new ViewModelProvider(this,
+                new GameStateViewModelFactory(getApplication(), gameStateDao))
+                .get(GameStateViewModel.class);
+        gameStateViewModel.getStarCount().observe(this, currentStarCount -> {
+
+                    if (currentStarCount != null) {
+
+                        adapter.updateStars(currentStarCount);
+                        SaveAndLoadDataHelper.saveStarsToDatabase(currentStarCount, getApplication());
+                        star.setText(currentStarCount + " ⭐");
+                    }
+                });
+
+        gameStateViewModel.getHelpItem().observe(this, currentHelpItem -> {
+
+            if (currentHelpItem != null) {
+
+                adapter.updateItem(currentHelpItem);
+                item.setText(currentHelpItem + " 🧩");
+            }
+        });
 
         LevelViewModel levelViewModel = new ViewModelProvider(this,
                 new LevelViewModelFactory(getApplication(), levelDao, currentLanguage))
@@ -77,18 +104,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        new Thread(() -> {
-
-            AppDatabase db = AppDatabase.getInstance(this);
-            GameStateDao gameStateDao = db.gameStateDao();
-            int starCount = gameStateDao.getStarCount();
-
-            runOnUiThread(() -> {
-
-                star.setText(starCount + " ⭐");
-            });
-        }).start();
-
         loadJsonAndInsert();
         setAdapter();
     }
@@ -99,30 +114,17 @@ public class MainActivity extends AppCompatActivity {
 
         prefs = getSharedPreferences("LangPrefs" ,MODE_PRIVATE);
         currentLanguage = prefs.getString("language" ,"en");
-        adapter = new GridViewAdapter(this ,new ArrayList<>() ,currentLanguage, this);
+        adapter = new GridViewAdapter(this ,new ArrayList<>() ,currentLanguage);
         gridView.setAdapter(adapter);
     }
-/*
-        if ("en".equals(currentLanguage)) {
 
-            levelList.add(new Level(1 ,"easy" ,0 ,5 ,true ,"en", false));
-            levelList.add(new Level(2 ,"easy" ,10 ,10 ,false ,"en",false));
-            levelList.add(new Level(3 ,"easy" ,20 ,20 ,false ,"en",false));
-
-        }
-        else if ("de".equals(currentLanguage)) {
-
-            levelList.add(new Level(1,"einfach" ,0 ,5 ,true ,"en",false));
-            levelList.add(new Level(2,"einfach" ,10 ,10 ,false ,"en",false));
-            levelList.add(new Level(3 ,"einfach" ,20 ,20 ,false ,"en",false));
-        }
-        GridViewAdapter adapter = new GridViewAdapter(this ,levelList, currentLanguage);
-        gridView.setAdapter(adapter);
-    }*/
 private void loadJsonAndInsert() {
 
     new Thread(( ) -> {
+/*
+        db.levelDao().deleteAll();
 
+        db.gameStateDao().deleteAll();*/
         String jsonString = null;
 
         try {
@@ -174,70 +176,13 @@ private void loadJsonAndInsert() {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.language_bar) {
-            showLanguageSelector();
-            return true;
-
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void showLanguageSelector() {
-
-        PopupMenu popup = new PopupMenu(this ,findViewById(R.id.language_bar));
-        Menu menu = popup.getMenu();
-
-        getMenuInflater().inflate(R.menu.menu_language ,menu);
-
-        popup.setOnMenuItemClickListener(item -> {
-            SharedPreferences prefs = getSharedPreferences("LangPrefs" ,MODE_PRIVATE);
-            MenuItem langItem = toolbar.getMenu().findItem(R.id.language_bar);
-
-            if (item.getItemId() == R.id.item_english) {
-                prefs.edit().putString("language" ,"en").apply();
-                langItem.setIcon(R.drawable.ic_en);
-                currentLanguage = "en";
-
-            } else if (item.getItemId() == R.id.item_german) {
-                prefs.edit().putString("language" ,"de").apply();
-                langItem.setIcon(R.drawable.ic_de);
-                currentLanguage = "de";
-            }
-            recreate();
-            return true;
-        });
-        popup.show();
-    }
-
     public void saveLanguage(String language) {
-        prefs = getSharedPreferences("LangPrefs" ,Context.MODE_PRIVATE);
+        prefs = getSharedPreferences("LangPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("language", language);
         editor.apply();
     }
 
-    public static void shakeButton(View view) {
-        Animation shake = new TranslateAnimation(0,0,0,5);
-        shake.setDuration(4000);
-        shake.setInterpolator(new CycleInterpolator(5));
-        shake.setRepeatMode(Animation.RESTART);
-        shake.setRepeatCount(Animation.INFINITE);
-        view.startAnimation(shake);
-    };
-
-    public static void moveGameOver(ImageView view) {
-        Animation move = new TranslateAnimation(0,0,400,-120);
-        move.setDuration(10000);
-
-        move.setInterpolator(new CycleInterpolator(1));
-        move.setRepeatMode(Animation.RESTART);
-        move.setRepeatCount(Animation.INFINITE);
-        view.startAnimation(move);
-    }
 
     @Override protected void onResume() {
 

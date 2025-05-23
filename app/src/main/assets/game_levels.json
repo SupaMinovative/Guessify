@@ -3,7 +3,7 @@
     "level": 1,
     "difficulty": "easy",
     "starRequired": 0,
-    "starRewarded": 5,
+    "starRewarded": 2,
     "isUnlocked": false,
     "language": "en",
     "isPlay": false
@@ -12,7 +12,7 @@
     "level": 2,
     "difficulty": "easy",
     "starRequired": 10,
-    "starRewarded": 10,
+    "starRewarded": 5,
     "isUnlocked": false,
     "language": "en",
     "isPlay": false
@@ -20,8 +20,88 @@
   {
     "level": 3,
     "difficulty": "easy",
+    "starRequired": 10,
+    "starRewarded": 5,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  },
+  {
+    "level": 4,
+    "difficulty": "intermediate",
+    "starRequired": 15,
+    "starRewarded": 8,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  },
+  {
+  "level": 5,
+  "difficulty": "intermediate",
+  "starRequired": 15,
+  "starRewarded": 8,
+  "isUnlocked": false,
+  "language": "en",
+  "isPlay": false
+},
+  {
+    "level": 6,
+    "difficulty": "intermediate",
+    "starRequired": 18,
+    "starRewarded": 10,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  },
+  {
+    "level": 7,
+    "difficulty": "hard",
     "starRequired": 20,
+    "starRewarded": 12,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  },
+  {
+    "level": 8,
+    "difficulty": "hard",
+    "starRequired": 25,
+    "starRewarded": 15,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  },
+  {
+  "level": 9,
+  "difficulty": "hard",
+  "starRequired": 28,
+  "starRewarded": 18,
+  "isUnlocked": false,
+  "language": "en",
+  "isPlay": false
+  },
+  {"level": 10,
+    "difficulty": "hardcore",
+    "starRequired": 30,
     "starRewarded": 20,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  },
+  {
+    "level": 11,
+    "difficulty": "hardcore",
+    "starRequired": 30,
+    "starRewarded": 20,
+    "isUnlocked": false,
+    "language": "en",
+    "isPlay": false
+  },
+  {
+    "level": 12,
+    "difficulty": "hardcore",
+    "starRequired": 35,
+    "starRewarded": 22,
     "isUnlocked": false,
     "language": "en",
     "isPlay": false

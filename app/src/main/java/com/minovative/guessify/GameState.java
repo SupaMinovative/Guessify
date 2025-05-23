@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 public class GameState {
     @PrimaryKey public int id = 1;
 @ColumnInfo(name = "star")
-private  int starCount = 0;
+private  int starCount;
 @ColumnInfo(name = "item")
 private int helpItem = 3;
 

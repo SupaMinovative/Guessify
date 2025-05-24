@@ -65,6 +65,10 @@ Room DB stores stars, hints, and unlocked levels.
 
 Activities observe LiveData and reflect changes in the UI.
 
+🛠️ All architecture decisions—including class structure, data flow, and screen logic—were designed independently as part of my learning journey.
+The goal was to apply real software thinking from the start—even as a beginner.
+
+
 ## 🎯 Why I Built It
 
 I wanted to learn Android the real way—by building something fun and useful. Guessify helped me explore:

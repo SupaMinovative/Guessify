@@ -8,6 +8,9 @@ Crafted in Java. Powered by LiveData. Driven by curiosity. 🚗
 
 It’s a passion project by a beginner Java learner—designed to be both fun and educational.
 
+
+<p align="center"> <img src="screenshots/guessify_nav.gif" alt="Game Navigation" width="300"/> </p>
+
 <p align="center"> <img src="screenshots/guessify_main.png" alt="Main Screen" width="500"/> </p>
 
 ## ⚙️ Features
@@ -36,8 +39,7 @@ Complete levels to unlock new stages with increasing challenge.
 🗃️ **Progress Saved via Room DB:** 
 Stars earned per level are saved in a local database and used to unlock new levels.
 
-<p align="center"> <img src="screenshots/guessify_gameplay.png" alt="Game Play" width="300"/> </p>
-<p align="center"> <img src="screenshots/guessify_summary.png" alt="Game Summary" width="300"/> </p>
+<p align="center"> <img src="screenshots/guessify_gameplay.png" alt="Game Play" width="500"/> </p> 
 
 ## 🧪 Tech & Concepts Used 
 

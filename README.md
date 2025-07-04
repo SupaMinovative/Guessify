@@ -3,13 +3,13 @@
 **Guessify** is a vocabulary-based word guessing game where players fill in missing letters using context clues.
 
 
+<p align="center"> <img src="screenshots/guessify_nav.gif" alt="Game Navigation" width="300"/> </p>
+
+
 Crafted in Java. Powered by LiveData. Driven by curiosity. 🚗
 
 
 It’s a passion project by a beginner Java learner—designed to be both fun and educational.
-
-
-<p align="center"> <img src="screenshots/guessify_nav.gif" alt="Game Navigation" width="300"/> </p>
 
 <p align="center"> <img src="screenshots/guessify_main.png" alt="Main Screen" width="500"/> </p>
 

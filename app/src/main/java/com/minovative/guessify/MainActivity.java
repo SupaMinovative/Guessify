@@ -120,11 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
 private void loadJsonAndInsert() {
 
-    new Thread(( ) -> {
-/*
-        db.levelDao().deleteAll();
-
-        db.gameStateDao().deleteAll();*/
+    new Thread(( ) -> { 
+        
         String jsonString = null;
 
         try {

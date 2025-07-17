@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eceef7"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -12,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:background="#0277bd"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
@@ -23,27 +24,72 @@
         android:background="#FFA500"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/starMain"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="⭐"
-            android:textAlignment="center"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:gravity="center|left"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/itemTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="🧩"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/starMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAlignment="viewEnd"
+                android:textColor="#555555"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="10dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/star_ic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/itemTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="🧩"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="#555555"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/shopIcon"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/shop_ic" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -53,9 +99,11 @@
         android:layout_height="match_parent"
         android:layout_margin="20dp"
         android:layout_weight="1"
+        android:background="#eceef7"
         android:columnWidth="100dp"
         android:gravity="center"
         android:horizontalSpacing="15dp"
         android:numColumns="auto_fit"
+        android:scrollbars="none"
         android:verticalSpacing="15dp" />
 </LinearLayout>

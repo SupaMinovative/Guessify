@@ -1,6 +1,7 @@
 package com.minovative.guessify;
 
-import android.content.Context; 
+import android.app.Activity;
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -9,7 +10,10 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.LifecycleOwner;
 
 public class MethodHelper {
 
@@ -81,5 +85,24 @@ public class MethodHelper {
         view.startAnimation(move);
     }
 
+    public static void onBackBtnPressed(Context context, LifecycleOwner lifecycleOwner,OnBackPressedDispatcher dispatcher){
+        dispatcher.addCallback(lifecycleOwner,new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed( ) {
+            showExistConfirmation(context, lifecycleOwner, dispatcher);
+        }
+    });
+    }
+    private static void showExistConfirmation(Context context,LifecycleOwner lifecycleOwner,OnBackPressedDispatcher dispatcher) {
+        new AlertDialog.Builder(context)
+                .setTitle("Exist?")
+                .setMessage("Are you sure you want to exit?")
 
+                .setNegativeButton("No",null)
+                .setPositiveButton("Yes",(dialog,which) -> {
+                    onBackBtnPressed(context, lifecycleOwner, dispatcher);
+                    ((Activity) context).finish();
+                })
+                .show();
+    }
 }

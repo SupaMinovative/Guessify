@@ -45,7 +45,8 @@ public class GuessingWord {
     public interface AnswerCallBack {
         void onCorrect( );
 
-        void onIncorrect( );
+        void onIncorrect();
+
     }
 
     public String generateMaskedWord( ) {
@@ -98,11 +99,11 @@ public class GuessingWord {
         return userGuess.toString().toLowerCase().equals(originalWord);
     }
 
-    public void showGuessUI(GuessingWord word, Word currentWord, Context context,
+    public void showGuessUI(Word currentWord, Context context,
                             List<EditText> editTextList, TextView hintTextView,
                             LinearLayout wordContainer, Button check, AnswerCallBack callBack) {
 
-        String masked = word.generateMaskedWord();
+        String masked = this.generateMaskedWord();
 
         hintTextView.setText("💡 " + currentWord.getHint());
 
@@ -110,65 +111,67 @@ public class GuessingWord {
             char c = masked.charAt(i);
 
             if (c == '_') {
-
                 EditText editText = new EditText(context);
-                editText.setWidth(125);
-                editText.setGravity(Gravity.CENTER);
-                editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
-                editText.setPadding(5,5,5,5);
-                editText.setTextSize(40);
-                editText.setInputType(InputType.TYPE_CLASS_TEXT);
-                indexToEditTextMap.put(i,editText);
-                editTextList.add(editText);
-                wordContainer.addView(editText);
+                createEditText(context,editTextList, wordContainer,i, editText);
 
                 int currentIndex = editTextList.size() - 1;
 
-                editText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence,int i,int i1,int i2) {
+                setTextChangeListener(editText,currentIndex,editTextList);
 
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence,int i,int i1,int i2) {
-
-                        if (charSequence.length() == 1) {
-
-                            if (currentIndex + 1 < editTextList.size()) {
-
-                                editTextList.get(currentIndex + 1).requestFocus();
-                            }
-                        }
-
-                        editText.setOnKeyListener((v,keyCode,event) -> {
-
-                            if (keyCode == KeyEvent.KEYCODE_DEL && editText.getText().length() == 0) {
-
-                                if (currentIndex - 1 >= 0) {
-
-                                    editTextList.get(currentIndex - 1).requestFocus();
-
-                                }
-                            }
-                            return false;
-                        });
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                });
             } else {
 
                 TextView textView = new TextView(context);
                 textView.setText(String.valueOf(c));
                 textView.setPadding(5,5,5,5);
-                textView.setTextSize(40);
+                textView.setTextColor(ContextCompat.getColor(context,R.color.black));
+                textView.setTextSize(35);
                 wordContainer.addView(textView);
             }
         }
+
+        checkAnswer(check, callBack);
+
+    }
+
+    public void setTextChangeListener(EditText editText, int currentIndex, List<EditText> editTextList){
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence,int i,int i1,int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence,int i,int i1,int i2) {
+
+                if (charSequence.length() == 1) {
+
+                    if (currentIndex + 1 < editTextList.size()) {
+
+                        editTextList.get(currentIndex + 1).requestFocus();
+                    }
+                }
+
+                editText.setOnKeyListener((v,keyCode,event) -> {
+
+                    if (keyCode == KeyEvent.KEYCODE_DEL && editText.getText().length() == 0) {
+
+                        if (currentIndex - 1 >= 0) {
+
+                            editTextList.get(currentIndex - 1).requestFocus();
+
+                        }
+                    }
+                    return false;
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+    public void checkAnswer(Button check, AnswerCallBack callBack){
 
         check.setOnClickListener(view -> {
 
@@ -183,7 +186,7 @@ public class GuessingWord {
                 userInput.add(et.getText().toString().toLowerCase());
             }
 
-            boolean correct = word.isCorrect(userInput);
+            boolean correct =  isCorrect(userInput);
 
             if (correct) {
 
@@ -196,7 +199,20 @@ public class GuessingWord {
             }
         });
     }
+    public void createEditText(Context context, List<EditText> editTextList, LinearLayout wordContainer, int i, EditText editText) {
 
+        editText.setWidth(110);
+        editText.setGravity(Gravity.CENTER);
+        editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
+        editText.setPadding(5,5,5,5);
+        editText.setTextColor(ContextCompat.getColor(context,R.color.black));
+        editText.setTextSize(35);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        indexToEditTextMap.put(i,editText);
+        editTextList.add(editText);
+        wordContainer.addView(editText);
+
+    }
     public boolean getWordHint(int numToReveal, String word, Context context,
                                LinearLayout wordContainer) {
 
@@ -233,7 +249,7 @@ public class GuessingWord {
 
         revealedLetter.setText(String.valueOf(word.charAt(indexToReveal)));
         revealedLetter.setPadding(5,5,5,5);
-        revealedLetter.setTextSize(40);
+        revealedLetter.setTextSize(35);
         revealedLetter.setTextColor(ContextCompat.getColor(context,R.color.primaryBlue));
         revealedLetter.setGravity(Gravity.CENTER);
 
@@ -245,14 +261,7 @@ public class GuessingWord {
         wordContainer.addView(revealedLetter,indexToReveal);
     }
 
-    public static String generateHeart(int count) {
-        StringBuilder hearts = new StringBuilder();
 
-        for (int i = 0; i < count; i++) {
-            hearts.append("❤️");
-        }
-        return hearts.toString();
-    }
 
     public void showNextWord(LinearLayout wordContainer, List<EditText> editTextList, TextView result) {
 

@@ -10,7 +10,11 @@ public class GameState {
 @ColumnInfo(name = "star")
 private  int starCount;
 @ColumnInfo(name = "item")
-private int helpItem = 3;
+private int helpItem;
+
+private int wordCounter = 0;
+
+private int lifeCount = 3;
 
 
     public int getStarCount() {
@@ -27,4 +31,23 @@ private int helpItem = 3;
     public void setHelpItem(int helpItem) {
         this.helpItem = helpItem;
     }
+
+
+    public int getWordCounter( ) {
+        return wordCounter;
+    }
+
+
+    public void setWordCounter(int wordCounter) {
+        this.wordCounter = wordCounter;
+    }
+
+    public int getLifeCount( ) {
+        return lifeCount;
+    }
+
+    public void setLifeCount(int lifeCount) {
+        this.lifeCount = lifeCount;
+    }
+
 }

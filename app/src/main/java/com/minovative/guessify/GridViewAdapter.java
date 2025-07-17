@@ -294,7 +294,7 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
                 return new Intent(getContext(),Level11Activity.class);
 
             case 12:
-                return new Intent(getContext(),Level11Activity.class);
+                return new Intent(getContext(),Level12Activity.class);
 
             default:
                 return new Intent(getContext(),MainActivity.class);

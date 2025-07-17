@@ -1,8 +1,13 @@
 package com.minovative.guessify;
 
+import static com.minovative.guessify.GameLogicHelper.onCorrectCheck;
+import static com.minovative.guessify.GameLogicHelper.onIncorrectCheck;
+import static com.minovative.guessify.GameUIHelper.generateHeart;
+import static com.minovative.guessify.GameUIHelper.onHelpItemClicked;
+import static com.minovative.guessify.GameUIHelper.setEmptyText;
 import static com.minovative.guessify.MethodHelper.moveGameOver;
-import static com.minovative.guessify.MethodHelper.showDialog;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -20,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.GameDisplayViewHolder> {
@@ -30,25 +34,22 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
     private Context context;
     private GameState gameState = new GameState();
     private int starCount;
-    private int lifeCount = 3;
-    private int helpItem = gameState.getHelpItem();
-    private int wordCounter = 0;
+    private int lifeCount = gameState.getLifeCount();
+    private int wordCounter = gameState.getWordCounter();
     private Word currentWord;
     private OnLastWordCompletionListener listener;
-    private int currentLevel;
+    private Application application;
     private boolean gameStarted = false;
     private List<EditText> editTextList = new ArrayList<>();
-    private int itemCount;
 
-    public GameDisplayAdapter(List<Word> wordList,RecyclerView recyclerView,Context context
-            ,OnLastWordCompletionListener listener,int currentLevel, int itemCount) {
+
+    public GameDisplayAdapter(List<Word> wordList,RecyclerView recyclerView,Context context,
+              Application application, OnLastWordCompletionListener listener) {
         this.wordList = wordList;
         this.recyclerView = recyclerView;
         this.context = context;
         this.listener = listener;
-        this.currentLevel = currentLevel;
-        this.itemCount = itemCount;
-        helpItem = itemCount;
+        this.application = application;
     }
 
     // Interface for summary scores
@@ -72,8 +73,8 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
         holder.setIsRecyclable(false);
 
         holder.starDisplay.setText(starCount + " ⭐");
-        holder.lifeDisplay.setText(GuessingWord.generateHeart(lifeCount));
-        holder.helpItemText.setText(helpItem + " 🧩");
+        holder.lifeDisplay.setText(generateHeart(gameState.getLifeCount()));
+        holder.helpItemText.setText(gameState.getHelpItem() + " 🧩");
 
         holder.backButton.setOnClickListener(view -> {
 
@@ -81,8 +82,7 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
             context.startActivity(i);
         });
 
-
-        if (position == 0 && wordCounter == 0) {
+        if (position == 0 && gameState.getWordCounter() == 0) {
 
             gameStarted = true;
             startGame(holder);
@@ -96,46 +96,36 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
 
     private void startGame(GameDisplayViewHolder holder) {
 
-        currentWord = wordList.get(wordCounter);
+        currentWord = wordList.get(gameState.getWordCounter());
         GuessingWord word = new GuessingWord(currentWord.getWord());
 
-        word.showGuessUI(word,currentWord,context,editTextList,holder.hintTextView,holder.wordContainer
+        word.showGuessUI(currentWord,context,editTextList,holder.hintTextView,holder.wordContainer
                 ,holder.checkButton,new GuessingWord.AnswerCallBack() {
 
-            @Override
-            public void onCorrect( ) {
-                onCorrectCheck(holder);
-            }
+                    @Override
+                    public void onCorrect() {
+                        onCorrectCheck(holder, context, gameState, GameDisplayAdapter.this);
+                        proceedNextWord(holder);
+                        updateStarOnGameEnd();
+                    }
 
-            @Override
-            public void onIncorrect( ) {
-                onIncorrectCheck(holder);
-            }
-        });
+                    @Override
+                    public void onIncorrect( ) {
+
+                        onIncorrectCheck(holder, gameState, context, GameDisplayAdapter.this);
+                        proceedNextWord(holder);
+                        updateStarOnGameEnd();
+                        if (lifeCount == 1) {
+                            onGameOver(holder);
+                        }
+                    }
+
+                });
 
         holder.helpItemText.setOnClickListener(null);
-        holder.helpItemText.setOnClickListener(view -> {
-
-            if (helpItem == 0) {
-
-                showDialog(context, "You don't have any 🧩!");
-                return;
-            }
-
-            boolean revealed = word.getWordHint(1,currentWord.getWord(),context,holder.wordContainer);
-
-            if (revealed) {
-
-                helpItem--;
-                holder.helpItemText.setText(helpItem + " 🧩");
-
-            } else {
-
-                holder.helpItemText.setText("✅");
-                holder.helpItemText.setOnClickListener(null);
-            }
-        });
+        onHelpItemClicked(holder,word, gameState, context,currentWord, application);
     }
+
 
     private void proceedNextWord(GameDisplayViewHolder holder) {
 
@@ -143,98 +133,49 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
 
         new android.os.Handler().postDelayed(( ) -> {
 
-            holder.helpItemText.setText(helpItem + " 🧩");
+            holder.helpItemText.setText(gameState.getHelpItem() + " 🧩");
 
             int wordListSize = wordList.size();
 
-            if (wordCounter < wordListSize) {
+            if (gameState.getWordCounter() < wordListSize) {
 
-                currentWord = wordList.get(wordCounter);
+                currentWord = wordList.get(gameState.getWordCounter());
                 GuessingWord newGuessWord = new GuessingWord(currentWord.getWord());
 
                 holder.helpItemText.setOnClickListener(null);
-                holder.helpItemText.setOnClickListener(view -> {
 
-                    if (helpItem == 0) {
-
-                        showDialog(context, "You don't have any 🧩!");
-                        return;
-                    }
-
-                    boolean revealed = newGuessWord.getWordHint(1,currentWord.getWord(),context,holder.wordContainer);
-
-                    if (revealed) {
-
-                        helpItem--;
-                        holder.helpItemText.setText(helpItem + " 🧩");
-
-                    } else {
-
-                        holder.helpItemText.setText("✅");
-                        holder.helpItemText.setOnClickListener(null);
-                    }
-                });
+                onHelpItemClicked(holder,newGuessWord, gameState,context,currentWord, application);
 
                 newGuessWord.showNextWord(holder.wordContainer,editTextList,holder.result);
-                newGuessWord.showGuessUI(newGuessWord,currentWord,context,editTextList,holder.hintTextView
-                        ,holder.wordContainer,holder.checkButton,new GuessingWord.AnswerCallBack() {
-                    @Override
-                    public void onCorrect( ) {
-                        onCorrectCheck(holder);
-                    }
 
-                    @Override
-                    public void onIncorrect( ) {
-                        onIncorrectCheck(holder);
-                    }
-                });
+                newGuessWord.showGuessUI(currentWord,context,editTextList,holder.hintTextView
+                        ,holder.wordContainer,holder.checkButton,new GuessingWord.AnswerCallBack() {
+                            @Override
+                            public void onCorrect( ) {
+                                onCorrectCheck(holder, context, gameState, GameDisplayAdapter.this);
+
+                                proceedNextWord(holder);
+                                updateStarOnGameEnd();
+                            }
+
+                            @Override
+                            public void onIncorrect( ) {
+
+                                onIncorrectCheck(holder, gameState, context, GameDisplayAdapter.this);
+                                proceedNextWord(holder);
+                                updateStarOnGameEnd();
+                                if (lifeCount == 1) {
+                                    onGameOver(holder);
+                                }
+                            }
+
+                        });
             }
         },1500);
     }
 
-    private void onCorrectCheck(GameDisplayViewHolder holder) {
 
-        List<String> randomCorrect = new ArrayList<>();
-        Collections.addAll(randomCorrect,"Well done! 😎","Great! 👍","Nice! 🔥","Awesome! ✨");
-        Collections.shuffle(randomCorrect);
-
-        holder.result.setTextColor(ContextCompat.getColor(context,R.color.green));
-        holder.result.setText(randomCorrect.get(0));
-
-        starCount++;
-        holder.starDisplay.setText(starCount + " ⭐");
-
-        wordCounter++;
-        notifyItemChanged(wordCounter);
-        proceedNextWord(holder);
-        updateStarOnGameEnd();
-    }
-
-    private void onIncorrectCheck(GameDisplayViewHolder holder) {
-
-        List<String> randomIncorrect = new ArrayList<>();
-        Collections.addAll(randomIncorrect,"Too bad! 🫠","Try again! 😌","Missed! 😏","Not quite! 😋");
-        Collections.shuffle(randomIncorrect);
-
-        if (lifeCount > 1) {
-
-            lifeCount--;
-            holder.lifeDisplay.setText(GuessingWord.generateHeart(lifeCount));
-            holder.result.setTextColor(ContextCompat.getColor(context,R.color.red));
-            holder.result.setText(randomIncorrect.get(0));
-            wordCounter++;
-            notifyItemChanged(wordCounter);
-            proceedNextWord(holder);
-            updateStarOnGameEnd();
-
-        } else if (lifeCount == 1) {
-
-            lifeCount--;
-            holder.lifeDisplay.setText(GuessingWord.generateHeart(lifeCount));
-            holder.result.setTextColor(ContextCompat.getColor(context,R.color.red));
-            holder.result.setText(randomIncorrect.get(0));
-            wordCounter++;
-            notifyItemChanged(wordCounter);
+    private void onGameOver(GameDisplayViewHolder holder){
 
             new android.os.Handler().postDelayed(( ) -> {
 
@@ -261,8 +202,8 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
                 starCount = 0;
                 wordCounter = 0;
                 holder.starDisplay.setText(starCount + " ⭐");
-                holder.helpItemText.setText(helpItem + " 🧩");
-                holder.lifeDisplay.setText(GuessingWord.generateHeart(lifeCount));
+                holder.helpItemText.setText(gameState.getHelpItem() + " 🧩");
+                holder.lifeDisplay.setText(generateHeart(lifeCount));
                 setEmptyText(holder.result);
                 holder.result.setTextSize(25);
                 holder.restartButton.setVisibility(View.GONE);
@@ -270,16 +211,11 @@ public class GameDisplayAdapter extends RecyclerView.Adapter<GameDisplayAdapter.
                 startGame(holder);
             });
         }
-    }
-
-    private void setEmptyText(TextView textView) {
-        textView.setText("");
-    }
 
     private void updateStarOnGameEnd( ) {
-        if (wordCounter == wordList.size()) {
+        if (gameState.getWordCounter()  == wordList.size()) {
             if (listener != null) {
-                listener.onLastWordReached(starCount,lifeCount, helpItem);
+                listener.onLastWordReached(gameState.getStarCount(),lifeCount, gameState.getHelpItem());
             }
         }
     }

@@ -1,34 +1,22 @@
 package com.minovative.guessify;
 
+import static com.minovative.guessify.DatabaseHelper.loadJsonAndInsertLevel;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.CycleInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private AppDatabase db;
     private LevelDao levelDao;
     private GameStateDao gameStateDao;
+    private ImageView shopIcon;
+    private int totalStar;
+    private int totalHelpItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
         star = findViewById(R.id.starMain);
         item = findViewById(R.id.itemTextView);
         toolbar = findViewById(R.id.toolbar);
+        shopIcon = findViewById(R.id.shopIcon);
         setSupportActionBar(toolbar);
+        GameState gameState = new GameState();
 
         Objects.requireNonNull (getSupportActionBar ()).setTitle("");
 
@@ -67,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
         levelDao = db.levelDao();
         gameStateDao = db.gameStateDao();
 
+        star.setText(gameState.getStarCount() + " ");
+
+        item.setText(gameState.getHelpItem() + "  🧩");
+
         prefs = getSharedPreferences("LangPrefs" ,MODE_PRIVATE);
         currentLanguage = prefs.getString("language" ,"en");
 
@@ -78,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
                     if (currentStarCount != null) {
 
                         adapter.updateStars(currentStarCount);
-                        SaveAndLoadDataHelper.saveStarsToDatabase(currentStarCount, getApplication());
-                        star.setText(currentStarCount + " ⭐");
+                        star.setText(currentStarCount + "");
+                        totalStar = currentStarCount;
                     }
                 });
 
@@ -88,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
             if (currentHelpItem != null) {
 
                 adapter.updateItem(currentHelpItem);
-                item.setText(currentHelpItem + " 🧩");
+                item.setText(currentHelpItem + "  🧩");
+                totalHelpItem = currentHelpItem;
+
             }
         });
 
@@ -104,62 +103,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loadJsonAndInsert();
+        loadJsonAndInsertLevel(this, currentLanguage,levelDao);
         setAdapter();
+
+        shopIcon.setOnClickListener(view -> {
+            Intent i = new Intent(this, ShopActivity.class);
+            i.putExtra("CURRENT_STAR",totalStar);
+            i.putExtra("CURRENT_HELP_ITEM",totalHelpItem);
+            startActivity(i);
+        });
     }
 
     public void setAdapter() {
         gridView = findViewById(R.id.gridView);
         gridView.setNumColumns(2);
-
         prefs = getSharedPreferences("LangPrefs" ,MODE_PRIVATE);
         currentLanguage = prefs.getString("language" ,"en");
         adapter = new GridViewAdapter(this ,new ArrayList<>() ,currentLanguage);
         gridView.setAdapter(adapter);
     }
 
-private void loadJsonAndInsert() {
-
-    new Thread(( ) -> { 
-        
-        String jsonString = null;
-
-        try {
-            jsonString = LevelJsonUtils.AssetsJsonFile(this);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Gson gson = new Gson();
-        Type levelListType = new TypeToken<List<Level>>() { }.getType();
-
-        List<Level> loadedLevel = gson.fromJson(jsonString ,levelListType);
-        List<Level> allLevels = levelDao.getLevelByLanguageSync(currentLanguage);
-        List<Level> levelsToInsert = new ArrayList<>();
-
-        for (Level levelsFromJson : loadedLevel) {
-
-            boolean exists = false;
-
-            for (Level level : allLevels) {
-
-                if (level.getLevel() == levelsFromJson.getLevel()) {
-
-                    exists = true;
-                    break;
-                }
-            }
-            if (!exists) {
-
-                levelsToInsert.add(levelsFromJson);
-            }
-        }
-        if (!levelsToInsert.isEmpty()) {
-
-            levelDao.insertAllLevelState(levelsToInsert);
-        }
-    }).start();
-}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

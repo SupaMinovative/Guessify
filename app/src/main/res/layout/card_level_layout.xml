@@ -4,17 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="200dp"
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/levelTextView"
@@ -24,6 +27,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="15dp"
                 android:text="Level"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/difficultyTextView"
@@ -39,6 +43,7 @@
                 android:layout_marginTop="10dp"
                 android:text="difficulty"
                 android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,6 +62,7 @@
                 android:paddingEnd="15dp"
                 android:text="Unlock with ⭐"
                 android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:visibility="gone"
@@ -87,6 +93,7 @@
                 android:backgroundTint="#8BC34A"
                 android:text="START"
                 android:textAlignment="textStart"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:visibility="gone"

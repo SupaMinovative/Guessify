@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0277bd"
+    tools:context=".GameSummary">
+
+    <Button
+        android:id="@+id/levelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:layout_marginBottom="35dp"
+        android:backgroundTint="#FFA500"
+        android:padding="15dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:text="SHOP"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/backBtnShop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="110dp"
+        android:backgroundTint="#8BC34A"
+        android:padding="10dp"
+        android:text="BACK"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        android:layout_margin="50dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <GridView
+            android:id="@+id/shopGridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="#eceef7"
+            android:columnWidth="100dp"
+            android:gravity="center"
+            android:horizontalSpacing="5dp"
+            android:numColumns="auto_fit"
+            android:scrollbars="none"
+            android:verticalSpacing="5dp" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

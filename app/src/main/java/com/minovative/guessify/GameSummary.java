@@ -7,6 +7,7 @@ import static com.minovative.guessify.SaveAndLoadDataHelper.saveStarsToDatabase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public class GameSummary extends AppCompatActivity {
         stars = findViewById(R.id.starSummaryText);
         starsEarned = findViewById(R.id.starEarnedText);
         bonusText = findViewById(R.id.bonusText);
-        nextButton = findViewById(R.id.nextButton);
+        nextButton = findViewById(R.id.backBtnShop);
         starRewardText = findViewById(R.id.starRewardText);
         itemBonusText = findViewById(R.id.itemBonusText);
 
@@ -41,7 +42,6 @@ public class GameSummary extends AppCompatActivity {
         int helpItemTotal = getIntent().getIntExtra("HELP_ITEM_TOTAL" ,0);
         int helpItemReward = helpItemTotal + lifeCount;
         int allStarsFromThisLevel = starTotal+starCount+starReward+lifeCount;
-
         saveStarsToDatabase(allStarsFromThisLevel, getApplication());
         saveHelpItemToDatabase(helpItemReward, getApplication());
 

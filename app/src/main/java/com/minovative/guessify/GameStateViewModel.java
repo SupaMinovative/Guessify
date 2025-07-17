@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.util.List;
 
 public class GameStateViewModel extends AndroidViewModel {
 
@@ -25,8 +24,18 @@ public class GameStateViewModel extends AndroidViewModel {
         return starCount;
     }
 
-
+    public void updateStarQtt(GameState gameState ){
+        new Thread(()->{
+            gameStateDao.updateStarQtt(gameState);
+        }).start();
+    }
     public LiveData<Integer> getHelpItem() {
         return helpItem;
+    }
+
+    public void updateHelpItemQtt(GameState gameState){
+        new Thread(()->{
+            gameStateDao.updateHelpItem(gameState);
+        }).start();
     }
 }

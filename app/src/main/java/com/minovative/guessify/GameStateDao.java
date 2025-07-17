@@ -14,7 +14,10 @@ public interface GameStateDao {
     void insertGameState(GameState gameState);
 
     @Update
-    void updateGameState(GameState gameState);
+    void updateHelpItem(GameState gameState);
+
+    @Update
+    void updateStarQtt(GameState gameState);
 
     @Query("SELECT * FROM game_state WHERE id = 1 LIMIT 1")
     GameState getGameState();

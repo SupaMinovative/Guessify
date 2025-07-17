@@ -248,10 +248,8 @@ public class GridViewAdapter extends ArrayAdapter<Level> {
             throw new RuntimeException(e);
         }
         intent.putExtra("LANGUAGE_SELECTED",language);
-        intent.putExtra("HELP_ITEM",currentItems);
         intent.putExtra("STAR_REWARD",starsRewardFromThisLevel);
         intent.putExtra("STAR_TOTAL",starTotal);
-        intent.putExtra("CURRENT_LEVEL",currentLevel);
         intent.putExtra("UNLOCK_VALUE",levelUnlocked);
         activity.startActivity(intent);
     }

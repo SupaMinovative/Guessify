@@ -24,8 +24,6 @@ public class Level1Activity extends AppCompatActivity {
     private String language;
     private int starTotal;
     private int starReward;
-    private int currentItem;
-
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +34,9 @@ public class Level1Activity extends AppCompatActivity {
 
         onBackBtnPressed(this,this,getOnBackPressedDispatcher());
 
-        currentItem = getIntent().getIntExtra("HELP_ITEM",0);
-
         recyclerView = findViewById(R.id.recyclerView);
 
-        adapter = new GameDisplayAdapter(wordList,recyclerView,this,currentItem,this.getApplication(),
+        adapter = new GameDisplayAdapter(wordList,recyclerView,this,this.getApplication(),
                 ((int roundStarCount,int roundLife,int helpItem) -> {
                     Intent intent = new Intent(this,GameSummary.class);
                     intent.putExtra("STAR_TOTAL",starTotal);
